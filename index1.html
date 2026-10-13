@@ -1,0 +1,2183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Menjelajahi Sifat-Sifat Gelombang</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #06b6d4;
+            --accent: #8b5cf6;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Sound Control Floating Widget */
+        .sound-widget {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--card-border);
+            padding: 8px 12px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .sound-widget button {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        .sound-widget button:hover {
+            color: var(--secondary);
+        }
+
+        .sound-widget input[type="range"] {
+            width: 80px;
+            accent-color: var(--secondary);
+            cursor: pointer;
+        }
+
+        /* 1. Halaman Pembuka */
+        #welcome-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .hero-banner {
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+
+        .hero-banner h1 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            background: linear-gradient(to right, #60a5fa, #c084fc, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .hero-banner p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        /* Wave Canvas Background Animation on Welcome */
+        .wave-bg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.25;
+            pointer-events: none;
+        }
+
+        .login-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(16px);
+            padding: 30px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--card-border);
+            box-shadow: none;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Main App Layout */
+        #main-app {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header.app-header {
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid var(--card-border);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .user-badge {
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            background: rgba(15, 23, 42, 0.7);
+            padding: 10px 20px;
+            gap: 10px;
+            overflow-x: auto;
+            border-bottom: 1px solid var(--card-border);
+            scrollbar-width: thin;
+        }
+
+        .nav-tab {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 10px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #60a5fa, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        /* Cards & Grids */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(12px);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* 2. Rangkuman Materi Styling */
+        .theory-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        .theory-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--secondary);
+        }
+
+        .theory-card h3 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theory-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .theory-table th, .theory-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 0.9rem;
+        }
+
+        .theory-table th {
+            background: rgba(79, 70, 229, 0.3);
+            color: white;
+            font-weight: 600;
+        }
+
+        .theory-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .concept-note {
+            background: rgba(6, 182, 212, 0.1);
+            border-left: 4px solid var(--secondary);
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+
+        /* 3. Tahap 1: Prediksi */
+        .prediction-item {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .prediction-item h4 {
+            margin-bottom: 12px;
+            color: #93c5fd;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .radio-label:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .radio-label input {
+            accent-color: var(--secondary);
+        }
+
+        /* 4. Tahap 2: Laboratorium Simulasi */
+        .sim-container {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 20px;
+        }
+
+        @media(max-width: 900px) {
+            .sim-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sim-viewport {
+            background: #090d16;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sim-viewport canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .sim-controls {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .control-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .control-group input[type="range"] {
+            width: 100%;
+            accent-color: var(--secondary);
+        }
+
+        .sim-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .sim-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .sim-tab {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .sim-tab.active, .sim-tab:hover {
+            background: var(--secondary);
+            color: #0f172a;
+            font-weight: 600;
+            border-color: var(--secondary);
+        }
+
+        /* 5. Tahap 3: Diskusi Hasil */
+        .discussion-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .discussion-table th, .discussion-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 0.85rem;
+            vertical-align: top;
+        }
+
+        .discussion-table th {
+            background: rgba(79, 70, 229, 0.3);
+            color: white;
+        }
+
+        .discussion-table textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 6px;
+            color: white;
+            padding: 8px;
+            font-size: 0.85rem;
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .discussion-table textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .qa-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .qa-box h5 {
+            color: #93c5fd;
+            margin-bottom: 8px;
+        }
+
+        .feedback-box {
+            margin-top: 10px;
+            padding: 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #6ee7b7;
+        }
+
+        /* 6. Tahap 4: Kuis Interaktif & Dashboard Guru */
+        .quiz-card {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .quiz-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .progress-bar-container {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin: 0 15px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--secondary);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .option-item {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border);
+            padding: 14px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--secondary);
+        }
+
+        .option-item.selected {
+            background: rgba(6, 182, 212, 0.15);
+            border-color: var(--secondary);
+        }
+
+        .quiz-nav-btns {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .result-score-box {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .score-circle {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: conic-gradient(var(--secondary) calc(var(--percentage) * 1%), rgba(255,255,255,0.1) 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .score-circle::before {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: #0f172a;
+            border-radius: 50%;
+        }
+
+        .score-number {
+            position: relative;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        /* Dashboard Guru */
+        .dashboard-container {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-card h4 {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .dashboard-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .dashboard-actions input {
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            color: white;
+            outline: none;
+            width: 250px;
+        }
+
+        /* 7. Tahap 5: Refleksi */
+        .reflection-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .reflection-group {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border);
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .reflection-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #93c5fd;
+        }
+
+        .reflection-group textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            color: white;
+            padding: 12px;
+            outline: none;
+            min-height: 80px;
+        }
+
+        .reflection-group textarea:focus {
+            border-color: var(--secondary);
+        }
+
+        .rating-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .rating-chip {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .rating-chip.active {
+            background: var(--secondary);
+            color: #0f172a;
+            font-weight: 600;
+            border-color: var(--secondary);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header.app-header {
+                padding: 10px 15px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .dashboard-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .dashboard-actions input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sound Control Floating Widget -->
+    <div class="sound-widget">
+        <button id="sound-toggle-btn" title="Nyalakan/Matikan Musik"><i class="fa-solid fa-volume-xmark"></i></button>
+        <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.3" title="Kontrol Volume">
+    </div>
+
+    <!-- 1. HALAMAN PEMBUKA -->
+    <div id="welcome-screen">
+        <canvas class="wave-bg-canvas" id="bg-wave-canvas"></canvas>
+        <div class="hero-banner">
+            <h1>PETUALANGAN MENJELAJAHI SIFAT-SIFAT GELOMBANG</h1>
+            <p>Belajar Fisika melalui Prediksi, Eksperimen, dan Penemuan (Discovery Learning)</p>
+        </div>
+        <div class="login-card">
+            <div class="input-group">
+                <label for="student-name">Nama Lengkap Siswa</label>
+                <input type="text" id="student-name" placeholder="Masukkan nama Anda...">
+            </div>
+            <div class="input-group">
+                <label for="student-class">Kelas (Contoh: XI MIPA 1)</label>
+                <input type="text" id="student-class" placeholder="Masukkan kelas Anda...">
+            </div>
+            <button class="btn" id="start-btn">MULAI PETUALANGAN</button>
+        </div>
+    </div>
+
+    <!-- MAIN APP WRAPPER -->
+    <div id="main-app" class="hidden">
+        <header class="app-header">
+            <div>
+                <h2><i class="fa-solid fa-water" style="color: var(--secondary);"></i> Fisika Kelas XI</h2>
+            </div>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div class="user-badge" id="display-user-info">Siswa: -</div>
+                <button class="btn-secondary" id="logout-btn" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 8px;"><i class="fa-solid fa-arrow-left"></i> Keluar</button>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-target="tab-theory"><i class="fa-solid fa-book-open"></i> Mari Memahami</button>
+            <button class="nav-tab" data-target="tab-prediction"><i class="fa-solid fa-lightbulb"></i> Prediksiku</button>
+            <button class="nav-tab" data-target="tab-sim"><i class="fa-solid fa-flask"></i> Laboratorium Gelombang</button>
+            <button class="nav-tab" data-target="tab-discussion"><i class="fa-solid fa-comments"></i> Temukan Polanya</button>
+            <button class="nav-tab" data-target="tab-quiz"><i class="fa-solid fa-award"></i> Tantangan Ahli</button>
+            <button class="nav-tab" data-target="tab-reflection"><i class="fa-solid fa-brain"></i> Refleksi Diri</button>
+            <button class="nav-tab" data-target="tab-dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard Guru</button>
+        </nav>
+
+        <div class="content-area">
+            
+            <!-- TAB 1: RANGKUMAN MATERI -->
+            <div id="tab-theory" class="tab-content">
+                <h2 class="section-title">Mari Memahami Gelombang</h2>
+                <p class="section-desc">Pelajari karakteristik dan enam sifat utama gelombang secara mendalam sebelum melakukan eksperimen.</p>
+                
+                <div class="theory-card">
+                    <h3><i class="fa-solid fa-circle-info"></i> Konsep Dasar Gelombang</h3>
+                    <p>Gelombang adalah getaran yang merambat. Sifat utama gelombang adalah **memindahkan energi tanpa memindahkan materi secara keseluruhan**. Mari kita telusuri 6 sifat penting gelombang:</p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="theory-card">
+                        <h3>1. Pemantulan (Refleksi)</h3>
+                        <p><strong>Pengertian:</strong> Peristiwa ketika gelombang kembali ke medium asal setelah mengenai penghalang atau batas medium.</p>
+                        <p style="margin-top: 8px;"><strong>Ciri Utama:</strong> Mengubah arah rambat gelombang, besar sudut datang sama dengan sudut pantul (\(\theta_i = \theta_r\)).</p>
+                        <p style="margin-top: 8px;"><strong>Contoh:</strong> Gema suara pada dinding tebing, gelombang air membentur dinding kolam.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h3>2. Pembiasan (Refraksi)</h3>
+                        <p><strong>Pengertian:</strong> Perubahan arah rambat gelombang akibat perubahan cepat rambat ketika memasuki medium atau daerah dengan kerapatan berbeda.</p>
+                        <p style="margin-top: 8px;"><strong>Ciri Utama:</strong> Panjang gelombang dan kecepatan berubah, namun **frekuensi tetap** karena ditentukan oleh sumber.</p>
+                        <p style="margin-top: 8px;"><strong>Contoh:</strong> Gelombang air laut yang melambat saat mendekati pantai yang dangkal.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h3>3. Difraksi (Pelenturan)</h3>
+                        <p><strong>Pengertian:</strong> Peristiwa pembelokan atau penyebaran gelombang ketika melewati celah sempit atau tepi penghalang.</p>
+                        <p style="margin-top: 8px;"><strong>Ciri Utama:</strong> Semakin kecil ukuran celah dibanding panjang gelombang, efek difraksi semakin jelas.</p>
+                        <p style="margin-top: 8px;"><strong>Contoh:</strong> Suara orang di dalam ruangan tetap terdengar dari celah pintu terbuka.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h3>4. Interferensi (Perpaduan)</h3>
+                        <p><strong>Pengertian:</strong> Perpaduan dua gelombang atau lebih yang bertemu di suatu tempat.</p>
+                        <p style="margin-top: 8px;"><strong>Ciri Utama:</strong> Terbagi menjadi interferensi *konstruktif* (saling memperkuat, sefase) dan *destruktif* (saling memperlemah, berlawanan fase).</p>
+                        <p style="margin-top: 8px;"><strong>Contoh:</strong> Pola riak air dari dua batu yang dijatuhkan bersamaan.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h3>5. Dispersi</h3>
+                        <p><strong>Pengertian:</strong> Penguraian gelombang (terutama cahaya) berdasarkan frekuensi atau panjang gelombang akibat perbedaan indeks bias medium.</p>
+                        <p style="margin-top: 8px;"><strong>Ciri Utama:</strong> Komponen frekuensi tinggi dibiaskan lebih kuat dibanding frekuensi rendah.</p>
+                        <p style="margin-top: 8px;"><strong>Contoh:</strong> Cahaya putih matahari diuraikan prisma kaca menjadi spektrum warna me-ji-ku-hi-bi-ni-u.</p>
+                    </div>
+
+                    <div class="theory-card">
+                        <h3>6. Polarisasi</h3>
+                        <p><strong>Pengertian:</strong> Pembatasan arah getar gelombang transversal pada satu bidang getar tertentu.</p>
+                        <p style="margin-top: 8px;"><strong>Ciri Utama:</strong> **Hanya dapat terjadi pada gelombang transversal**, tidak pada gelombang longitudinal.</p>
+                        <p style="margin-top: 8px;"><strong>Contoh:</strong> Kacamata pelindung polaroid yang mengurangi silau cahaya matahari.</p>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <h3><i class="fa-solid fa-table"></i> Tabel Ringkasan Sifat-Sifat Gelombang</h3>
+                    <table class="theory-table">
+                        <thead>
+                            <tr>
+                                <th>Sifat Gelombang</th>
+                                <th>Pengertian Singkat</th>
+                                <th>Ciri Utama</th>
+                                <th>Contoh Sehari-hari</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Pemantulan</strong></td>
+                                <td>Gelombang memantul kembali ke medium asal.</td>
+                                <td>Sudut datang = Sudut pantul.</td>
+                                <td>Gema suara, pantulan cahaya pada cermin.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pembiasan</strong></td>
+                                <td>Pembelokan arah karena beda cepat rambat medium.</td>
+                                <td>Frekuensi tetap, kecepatan & panjang gelombang berubah.</td>
+                                <td>Gelombang air masuk ke daerah dangkal.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Difraksi</strong></td>
+                                <td>Penyebaran gelombang saat melewati celah.</td>
+                                <td>Dominan pada celah seorde dengan panjang gelombang.</td>
+                                <td>Suara terdengar di balik tikungan dinding.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Interferensi</strong></td>
+                                <td>Superposisi/perpaduan dua gelombang.</td>
+                                <td>Konstruktif (kuat) & Destruktif (lemah).</td>
+                                <td>Pola interferensi gelombang air kolam.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dispersi</strong></td>
+                                <td>Penguraian komponen warna cahaya.</td>
+                                <td>Bergantung pada indeks bias frekuensi gelombang.</td>
+                                <td>Pelangi di langit, pembiasan cahaya prisma.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Polarisasi</strong></td>
+                                <td>Penyaringan arah getar gelombang transversal.</td>
+                                <td>Khusus gelombang transversal (cahaya/tali).</td>
+                                <td>Kacamata polaroid anti silau.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="concept-note">
+                        <strong>Catatan Konsep Penting:</strong> Jangan menyamakan pembiasan dengan pemantulan, atau interferensi dengan difraksi. Pahami bahwa setiap sifat memiliki mekanisme fisika yang khas dalam mentransmisikan energi gelombang.
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: TAHAP 1 PREDIKSI -->
+            <div id="tab-prediction" class="tab-content hidden">
+                <h2 class="section-title">Tahap 1: Prediksi (Hypothesis Generation)</h2>
+                <p class="section-desc">Sebelum menjalankan simulasi di laboratorium, ujilah pemahaman awal Anda dengan menjawab permasalahan berikut secara jujur. Prediksi ini tidak dinilai sebagai benar/salah.</p>
+
+                <div id="prediction-container">
+                    <!-- Dynamically populated by JS -->
+                </div>
+
+                <button class="btn" id="save-all-predictions-btn" style="margin-top: 20px;"><i class="fa-solid fa-floppy-disk"></i> Simpan Semua Prediksi</button>
+            </div>
+
+            <!-- TAB 3: TAHAP 2 EKSPLORASI SIMULASI -->
+            <div id="tab-sim" class="tab-content hidden">
+                <h2 class="section-title">Tahap 2: Laboratorium Simulasi Interaktif</h2>
+                <p class="section-desc">Ubah parameter pada panel kontrol di samping simulasi untuk menyelidiki karakteristik masing-masing sifat gelombang.</p>
+
+                <div class="sim-tabs">
+                    <button class="sim-tab active" data-sim="reflection">1. Pemantulan</button>
+                    <button class="sim-tab" data-sim="refraction">2. Pembiasan</button>
+                    <button class="sim-tab" data-sim="diffraction">3. Difraksi</button>
+                    <button class="sim-tab" data-sim="interference">4. Interferensi</button>
+                    <button class="sim-tab" data-sim="dispersion">5. Dispersi</button>
+                    <button class="sim-tab" data-sim="polarization">6. Polarisasi</button>
+                </div>
+
+                <div class="sim-container">
+                    <div class="sim-viewport">
+                        <canvas id="simulation-canvas"></canvas>
+                    </div>
+
+                    <div class="sim-controls" id="sim-control-panel">
+                        <!-- Dynamic control parameters inserted by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: TAHAP 3 DISKUSI HASIL -->
+            <div id="tab-discussion" class="tab-content hidden">
+                <h2 class="section-title">Tahap 3: Temukan Polanya (Analisis & Diskusi)</h2>
+                <p class="section-desc">Bandingkan hasil pengamatan simulasi dengan prediksi awal Anda, lalu simpulkan konsep ilmiahnya.</p>
+
+                <div class="card">
+                    <h3>Tabel Pengamatan Penemuan</h3>
+                    <div style="overflow-x: auto;">
+                        <table class="discussion-table">
+                            <thead>
+                                <tr>
+                                    <th>Sifat Gelombang</th>
+                                    <th>Prediksi Awal Anda</th>
+                                    <th>Hasil Pengamatan Simulasi</th>
+                                    <th>Pola / Alasan Ilmiah</th>
+                                </tr>
+                            </thead>
+                            <tbody id="discussion-table-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Pertanyaan Reflektif Diskusi</h3>
+                    <div id="reflection-questions-container">
+                        <!-- Populated by JS -->
+                    </div>
+                    <button class="btn" id="check-scientific-concept-btn" style="margin-top: 15px;"><i class="fa-solid fa-circle-check"></i> Bandingkan dengan Konsep Ilmiah</button>
+                    <div id="scientific-feedback-area" class="hidden" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+
+            <!-- TAB 5: TAHAP 4 KUIS INTERAKTIF -->
+            <div id="tab-quiz" class="tab-content hidden">
+                <h2 class="section-title">Tahap 4: Tantangan Ahli Gelombang</h2>
+                <p class="section-desc">Uji pemahaman komprehensif Anda mengenai seluruh sifat gelombang melalui 10 soal latihan pilihan ganda.</p>
+
+                <div class="card quiz-card" id="quiz-card-wrapper">
+                    <div id="quiz-active-area">
+                        <div class="quiz-progress">
+                            <span id="quiz-progress-text">Soal 1 dari 10</span>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" id="quiz-progress-fill"></div>
+                            </div>
+                            <span id="quiz-timer">Kuis Aktif</span>
+                        </div>
+                        <div class="question-text" id="quiz-question-text">Memuat soal...</div>
+                        <div class="options-list" id="quiz-options-list">
+                            <!-- Options -->
+                        </div>
+                        <div class="quiz-nav-btns">
+                            <button class="btn btn-secondary" id="quiz-prev-btn"><i class="fa-solid fa-arrow-left"></i> Sebelumnya</button>
+                            <button class="btn" id="quiz-next-btn">Berikutnya <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <div id="quiz-result-area" class="hidden">
+                        <!-- Result view populated via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 6: TAHAP 5 REFLEKSI DIRI -->
+            <div id="tab-reflection" class="tab-content hidden">
+                <h2 class="section-title">Tahap 5: Refleksi Diri</h2>
+                <p class="section-desc">Renungkan proses belajar Anda hari ini untuk meningkatkan pemahaman fisika di masa mendatang.</p>
+
+                <div class="card">
+                    <div class="reflection-form">
+                        <div class="reflection-group">
+                            <label>1. Sifat gelombang apa yang paling mudah saya pahami?</label>
+                            <textarea id="ref-1" placeholder="Tuliskan jawaban Anda..."></textarea>
+                        </div>
+                        <div class="reflection-group">
+                            <label>2. Sifat gelombang apa yang masih membingungkan atau perlu didalami lagi?</label>
+                            <textarea id="ref-2" placeholder="Tuliskan jawaban Anda..."></textarea>
+                        </div>
+                        <div class="reflection-group">
+                            <label>3. Penemuan atau momen apa yang paling menarik dari simulasi laboratorium?</label>
+                            <textarea id="ref-3" placeholder="Tuliskan jawaban Anda..."></textarea>
+                        </div>
+                        <div class="reflection-group">
+                            <label>4. Bagaimana tingkat pemahaman Anda terhadap topik Sifat-Sifat Gelombang secara keseluruhan?</label>
+                            <div class="rating-options" id="understanding-rating">
+                                <div class="rating-chip" data-val="Belum Paham">Belum Paham</div>
+                                <div class="rating-chip" data-val="Cukup Paham">Cukup Paham</div>
+                                <div class="rating-chip active" data-val="Paham">Paham</div>
+                                <div class="rating-chip" data-val="Sangat Paham">Sangat Paham</div>
+                            </div>
+                        </div>
+                        <button class="btn" id="save-reflection-btn"><i class="fa-solid fa-check"></i> Simpan Refleksi Diri</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 7: DASHBOARD GURU -->
+            <div id="tab-dashboard" class="tab-content hidden">
+                <h2 class="section-title">Dashboard Pemantauan Guru</h2>
+                <p class="section-desc">Rekapitulasi hasil kuis siswa yang tersimpan di penyimpanan lokal browser (*localStorage*).</p>
+
+                <div class="dashboard-container">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>Total Siswa Mengerjakan</h4>
+                            <div class="stat-value" id="stat-total">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Rata-Rata Nilai</h4>
+                            <div class="stat-value" id="stat-avg">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Nilai Tertinggi</h4>
+                            <div class="stat-value" id="stat-max">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Nilai Terendah</h4>
+                            <div class="stat-value" id="stat-min">0</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-actions">
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="text" id="search-student" placeholder="Cari nama siswa...">
+                            <select id="sort-score-select" style="padding: 8px 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); color: white; border-radius: 8px; outline: none;">
+                                <option value="latest" style="background:#0f172a;">Urutkan: Terbaru</option>
+                                <option value="highest" style="background:#0f172a;">Urutkan: Nilai Tertinggi</option>
+                                <option value="lowest" style="background:#0f172a;">Urutkan: Nilai Terendah</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn" id="export-csv-btn" style="padding: 9px 16px; font-size: 0.9rem;"><i class="fa-solid fa-file-csv"></i> Ekspor ke CSV</button>
+                            <button class="btn btn-secondary" id="clear-data-btn" style="padding: 9px 16px; font-size: 0.9rem; background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.4);"><i class="fa-solid fa-trash"></i> Hapus Data</button>
+                        </div>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table class="theory-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Siswa</th>
+                                    <th>Kelas</th>
+                                    <th>Waktu Pengerjaan</th>
+                                    <th>Benar / Salah</th>
+                                    <th>Skor Akhir</th>
+                                    <th>Kategori</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboard-table-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 15px;">
+                        <i class="fa-solid fa-triangle-exclamation" style="color: var(--warning);"></i> <strong>Catatan Keterbatasan Penyimpanan:</strong> Data pada dashboard ini tersimpan secara lokal pada browser perangkat ini (`localStorage`). Hasil dari perangkat HP siswa yang berbeda tidak otomatis terkumpul di perangkat ini kecuali diekspor atau diintegrasikan dengan database pusat.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- GLOBAL STATE & DATA ---
+        let currentUser = { name: "", grade: "" };
+        let currentSim = "reflection";
+        let simRunning = true;
+        let simAnimFrame = null;
+        let currentQuizIndex = 0;
+        let userAnswers = {};
+        let quizSubmitted = false;
+        let selectedUnderstanding = "Paham";
+        
+        // Web Audio Context & Sound Synthesizer
+        let audioCtx = null;
+        let isMuted = false;
+        let bgMusicInterval = null;
+        let volumeLevel = 0.3;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        // Sound Effect for button clicks
+        function playSound(type) {
+            if (isMuted) return;
+            initAudio();
+            if (!audioCtx) return;
+
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            let now = audioCtx.currentTime;
+            if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, now);
+                osc.frequency.exponentialRampToValueAtTime(600, now + 0.08);
+                gain.gain.setValueAtTime(volumeLevel * 0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+                osc.start(now);
+                osc.stop(now + 0.08);
+            } else if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                gain.gain.setValueAtTime(volumeLevel * 0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+                osc.start(now);
+                osc.stop(now + 0.4);
+            } else if (type === 'incorrect') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(200, now);
+                osc.frequency.setValueAtTime(150, now + 0.15);
+                gain.gain.setValueAtTime(volumeLevel * 0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            }
+        }
+
+        // Ambient gentle chime background music
+        function startBgMusic() {
+            if (bgMusicInterval) clearInterval(bgMusicInterval);
+            const notes = [261.63, 329.63, 392.00, 523.25, 587.33]; // C4, E4, G4, C5, D5
+            bgMusicInterval = setInterval(() => {
+                if (isMuted || !audioCtx) return;
+                let note = notes[Math.floor(Math.random() * notes.length)];
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(note, audioCtx.currentTime);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                let now = audioCtx.currentTime;
+                gain.gain.setValueAtTime(0, now);
+                gain.gain.linearRampToValueAtTime(volumeLevel * 0.05, now + 0.5);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 3.0);
+                osc.start(now);
+                osc.stop(now + 3.0);
+            }, 3500);
+        }
+
+        // --- BACKGROUND WELCOME WAVE ANIMATION ---
+        function initWelcomeWave() {
+            const canvas = document.getElementById('bg-wave-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let w = canvas.width = window.innerWidth;
+            let h = canvas.height = window.innerHeight;
+            let t = 0;
+
+            window.addEventListener('resize', () => {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            });
+
+            function draw() {
+                ctx.clearRect(0, 0, w, h);
+                ctx.beginPath();
+                ctx.moveTo(0, h / 2);
+                for (let x = 0; x < w; x += 10) {
+                    let y = h / 2 + Math.sin(x * 0.01 + t) * 50 * Math.sin(t * 0.5);
+                    ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = 'rgba(6, 182, 212, 0.3)';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(0, h / 2 + 50);
+                for (let x = 0; x < w; x += 10) {
+                    let y = h / 2 + 50 + Math.cos(x * 0.015 - t) * 40;
+                    ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = 'rgba(139, 92, 246, 0.3)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                t += 0.03;
+                requestAnimationFrame(draw);
+            }
+            draw();
+        }
+
+        // --- QUIZ QUESTIONS DATA ---
+        const quizQuestions = [
+            {
+                id: 1,
+                question: "Ketika gelombang air laut merambat dan membentur dinding pemecah ombak di pantai, gelombang tersebut akan kembali ke medium asal. Peristiwa ini dinamakan...",
+                options: ["A. Pembiasan", "B. Pemantulan", "C. Difraksi", "D. Polarisasi"],
+                answer: 1,
+                explanation: "Pemantulan (refleksi) adalah peristiwa kembalinya gelombang ke medium asal setelah mengenai penghalang atau batas medium."
+            },
+            {
+                id: 2,
+                question: "Saat gelombang air merambat dari daerah yang dalam ke daerah yang dangkal dengan arah datang miring, terjadi pembelokan arah rambat. Besaran apa yang nilainya tetap tidak berubah selama peristiwa ini?",
+                options: ["A. Kecepatan rambat", "B. Panjang gelombang", "C. Frekuensi gelombang", "D. Amplitudo gelombang"],
+                answer: 2,
+                explanation: "Frekuensi gelombang selalu tetap karena ditentukan oleh sumber getar, sementara cepat rambat dan panjang gelombang berubah saat memasuki medium berbeda."
+            },
+            {
+                id: 3,
+                question: "Suara percakapan di dalam ruangan dapat terdengar sampai ke luar melalui lubang pintu yang terbuka sedikit. Peristiwa gelombang yang mendasari hal ini adalah...",
+                options: ["A. Difraksi", "B. Dispersi", "C. Polarisasi", "D. Pemantulan"],
+                answer: 0,
+                explanation: "Difraksi (pelenturan) adalah pembelokan gelombang saat melewati celah sempit atau penghalang."
+            },
+            {
+                id: 4,
+                question: "Dua gelombang dengan amplitudo sama bertemu pada satu titik. Jika kedua gelombang tersebut sefase (puncak bertemu puncak), maka akan terjadi...",
+                options: ["A. Interferensi destruktif (saling melemahkan)", "B. Interferensi konstruktif (saling memperkuat)", "C. Polarisasi total", "D. Dispersi warna"],
+                answer: 1,
+                explanation: "Interferensi konstruktif terjadi ketika dua gelombang bertemu dalam fase yang sama sehingga menghasilkan amplitudo resultan yang saling memperkuat."
+            },
+            {
+                id: 5,
+                question: "Cahaya matahari putih yang melewati sebuah prisma kaca diuraikan menjadi spektrum warna pelangi (merah sampai ungu). Sifat gelombang apakah yang ditunjukkan peristiwa ini?",
+                options: ["A. Difraksi", "B. Polarisasi", "C. Dispersi", "D. Pemantulan"],
+                answer: 2,
+                explanation: "Dispersi adalah penguraian cahaya polikromatik menjadi monokromatik akibat perbedaan indeks bias tiap komponen frekuensi."
+            },
+            {
+                id: 6,
+                question: "Manakah pernyataan di bawah ini yang benar mengenai karakteristik polarisasi gelombang?",
+                options: ["A. Dapat terjadi pada semua jenis gelombang termasuk bunyi", "B. Hanya dapat terjadi pada gelombang transversal", "C. Mengubah frekuensi gelombang secara signifikan", "D. Terjadi ketika gelombang melewati celah yang sangat lebar"],
+                answer: 1,
+                explanation: "Polarisasi merupakan pembatasan arah getar yang khas hanya terjadi pada gelombang transversal (seperti cahaya atau gelombang tali), bukan gelombang longitudinal."
+            },
+            {
+                id: 7,
+                question: "Sebuah gelombang datang pada bidang batas dengan sudut datang 30°. Jika terjadi pemantulan sempurna, berapakah besar sudut pantul gelombang tersebut?",
+                options: ["A. 15°", "B. 30°", "C. 60°", "D. 90°"],
+                answer: 1,
+                explanation: "Berdasarkan hukum pemantulan gelombang, besar sudut datang (\(\theta_i\)) selalu sama dengan besar sudut pantul (\(\theta_r\))."
+            },
+            {
+                id: 8,
+                question: "Mengapa kacamata polaroid sangat efektif mengurangi silau cahaya matahari yang terpantul dari permukaan air atau jalan aspal?",
+                options: ["A. Karena memantulkan seluruh cahaya", "B. Karena menyerap gelombang longitudinal cahaya", "C. Karena menyaring arah getar gelombang cahaya transversal tertentu", "D. Karena memperbesar panjang gelombang cahaya"],
+                answer: 2,
+                explanation: "Kacamata polaroid berfungsi sebagai filter polarisasi yang membatasi arah getar gelombang transversal cahaya yang masuk, sehingga mengurangi intensitas cahaya silau."
+            },
+            {
+                id: 9,
+                question: "Ketika gelombang melewati celah sempit yang ukurannya jauh lebih kecil daripada panjang gelombangnya, apa yang diamati pada pola gelombang setelah melewati celah?",
+                options: ["A. Gelombang diteruskan lurus tanpa ada penyebaran", "B. Gelombang menyebar membentuk muka gelombang melingkar", "C. Gelombang berhenti total", "D. Gelombang berubah menjadi longitudinal"],
+                answer: 1,
+                explanation: "Celah sempit bertindak sebagai sumber gelombang sekunder (prinsip Huygens), di mana gelombang menyebar secara melingkar setelah melewatinya."
+            },
+            {
+                id: 10,
+                question: "Pernyataan manakah yang paling tepat menyatakan definisi energi gelombang?",
+                options: ["A. Gelombang memindahkan partikel medium dari sumber ke tempat jauh", "B. Gelombang memindahkan energi tanpa memindahkan materi medium secara permanen", "C. Gelombang memerlukan perpindahan massa medium untuk merambat", "D. Kecepatan energi gelombang bergantung pada massa partikel yang ikut berpindah"],
+                answer: 1,
+                explanation: "Sifat hakiki gelombang adalah merambatkan energi dari satu tempat ke tempat lain tanpa ada perpindahan netto dari partikel medium perantaranya."
+            }
+        ];
+
+        // --- PREDICTIONS DATA ---
+        const predictionItemsData = [
+            { id: 1, title: "1. Pemantulan Gelombang", q: "Apa yang terjadi ketika gelombang air mengenai dinding pembatas yang kokoh?", options: ["A. Gelombang berhenti dan energi hilang sepenuhnya", "B. Gelombang memantul kembali ke arah medium asal dengan mengubah arah rambat", "C. Gelombang menembus dinding tanpa ada perubahan", "D. Gelombang berubah menjadi bunyi bising"] },
+            { id: 2, title: "2. Pembiasan Gelombang", q: "Bagaimana arah dan kecepatan gelombang air berubah ketika memasuki daerah air yang lebih dangkal dari daerah dalam?", options: ["A. Kecepatan bertambah dan arah rambat tegak lurus bidang batas", "B. Kecepatan berkurang, panjang gelombang memendek, dan arah rambat membias", "C. Kecepatan dan panjang gelombang tetap sama persis", "D. Frekuensi gelombang berubah drastis menjadi nol"] },
+            { id: 3, title: "3. Difraksi Gelombang", q: "Apa yang terjadi pada gelombang bidang ketika melewati celah sempit di antara dua penghalang?", options: ["A. Gelombang terhalang total dan tidak bisa lewat", "B. Gelombang menyebar (melentur) membentuk muka gelombang melingkar setelah melewati celah", "C. Gelombang dipantulkan kembali ke sumber", "D. Gelombang berubah menjadi sinar lurus tajam"] },
+            { id: 4, title: "4. Interferensi Gelombang", q: "Apa yang dapat diamati ketika dua gelombang dengan frekuensi sama saling bertemu di suatu titik?", options: ["A. Kedua gelombang saling meniadakan selamanya", "B. Terbentuk pola perpaduan tempat terjadinya penguatan (konstruktif) dan melemahnya gelombang (destruktif)", "C. Gelombang saling bertabrakan dan terpental ke belakang", "D. Tidak ada interaksi apapun antara kedua gelombang"] },
+            { id: 5, title: "5. Dispersi Cahaya", q: "Mengapa cahaya putih matahari dapat menghasilkan spektrum warna-warni setelah melewati prisma kaca?", options: ["A. Prisma memancarkan zat pewarna ke dalam cahaya", "B. Komponen warna cahaya memiliki indeks bias dan kecepatan berbeda di dalam kaca sehingga terurai", "C. Cahaya putih dihancurkan oleh permukaan prisma", "D. Terjadi pantulan berulang di dalam prisma"] },
+            { id: 6, title: "6. Polarisasi Cahaya", q: "Mengapa intensitas cahaya berkurang ketika melewati dua buah filter polarisasi yang sudut sumbunya diputar?", options: ["A. Sebagian besar foton cahaya diserap oleh panas filter", "B. Filter polarisasi hanya meneruskan komponen gelombang transversal pada arah getar tertentu sesuai sudut", "C. Filter memperlambat waktu rambat cahaya", "D. Cahaya diubah menjadi gelombang longitudinal"] }
+        ];
+
+        // --- DISCUSSION QUESTIONS DATA ---
+        const discussionQuestionsData = [
+            { id: 1, q: "Apa perbedaan mendasar antara pemantulan dan pembiasan gelombang?" },
+            { id: 2, q: "Bagaimana ukuran lebar celah memengaruhi pola difraksi yang dihasilkan?" },
+            { id: 3, q: "Apa perbedaan antara interferensi konstruktif dan destruktif?" },
+            { id: 4, q: "Mengapa cahaya putih dapat terurai menjadi berbagai warna pada peristiwa dispersi?" },
+            { id: 5, q: "Mengapa polarisasi hanya dapat dialami oleh gelombang transversal, bukan longitudinal?" }
+        ];
+
+        // --- INITIALIZATION & NAVIGATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Sound Widget Events
+            const soundBtn = document.getElementById('sound-toggle-btn');
+            const volSlider = document.getElementById('volume-slider');
+
+            soundBtn.addEventListener('click', () => {
+                isMuted = !isMuted;
+                if (isMuted) {
+                    soundBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+                } else {
+                    soundBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+                    initAudio();
+                    startBgMusic();
+                }
+            });
+
+            volSlider.addEventListener('input', (e) => {
+                volumeLevel = parseFloat(e.target.value);
+                if (volumeLevel > 0 && isMuted) {
+                    isMuted = false;
+                    soundBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+                }
+            });
+
+            // Welcome Wave Canvas
+            initWelcomeWave();
+
+            // Start Button Event
+            document.getElementById('start-btn').addEventListener('click', () => {
+                const nameInput = document.getElementById('student-name').value.trim();
+                const classInput = document.getElementById('student-class').value.trim();
+
+                if (!nameInput || !classInput) {
+                    alert('Mohon masukkan Nama Lengkap dan Kelas Anda terlebih dahulu!');
+                    return;
+                }
+
+                currentUser.name = nameInput;
+                currentUser.grade = classInput;
+                document.getElementById('display-user-info').innerText = `Siswa: ${currentUser.name} (${currentUser.grade})`;
+
+                playSound('click');
+                initAudio();
+                startBgMusic();
+
+                document.getElementById('welcome-screen').classList.add('hidden');
+                document.getElementById('main-app').classList.remove('hidden');
+
+                // Render dynamic sections
+                renderPredictions();
+                renderDiscussionTable();
+                initSimulation('reflection');
+                initQuiz();
+                loadDashboardData();
+            });
+
+            // Logout Button
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                playSound('click');
+                if (confirm('Keluar dari sesi saat ini?')) {
+                    document.getElementById('main-app').classList.add('hidden');
+                    document.getElementById('welcome-screen').classList.remove('hidden');
+                }
+            });
+
+            // Nav Tabs Switching
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    playSound('click');
+                    navTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    const targetId = tab.getAttribute('data-target');
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    document.getElementById(targetId).classList.remove('hidden');
+
+                    // If dashboard tab opened, reload data
+                    if (targetId === 'tab-dashboard') {
+                        loadDashboardData();
+                    }
+                });
+            });
+
+            // Sim Tabs Switching
+            const simTabs = document.querySelectorAll('.sim-tab');
+            simTabs.forEach(st => {
+                st.addEventListener('click', () => {
+                    playSound('click');
+                    simTabs.forEach(t => t.classList.remove('active'));
+                    st.classList.add('active');
+                    currentSim = st.getAttribute('data-sim');
+                    initSimulation(currentSim);
+                });
+            });
+
+            // Prediction Save Button
+            document.getElementById('save-all-predictions-btn').addEventListener('click', () => {
+                playSound('correct');
+                alert('Prediksi Anda berhasil disimpan! Sekarang mari buktikan melalui Laboratorium Simulasi.');
+                document.querySelector('[data-target="tab-sim"]').click();
+            });
+
+            // Discussion Scientific Concept Check
+            document.getElementById('check-scientific-concept-btn').addEventListener('click', () => {
+                playSound('correct');
+                const feedbackArea = document.getElementById('scientific-feedback-area');
+                feedbackArea.classList.remove('hidden');
+                feedbackArea.innerHTML = `
+                    <div class="feedback-box">
+                        <strong><i class="fa-solid fa-circle-check"></i> Pembahasan Konsep Ilmiah:</strong><br>
+                        1. <strong>Pemantulan:</strong> Mengubah arah rambat gelombang kembali ke medium asal dengan \(\theta_i = \theta_r\).<br>
+                        2. <strong>Pembiasan:</strong> Kecepatan dan panjang gelombang berubah saat beda kerapatan medium, frekuensi konstan.<br>
+                        3. <strong>Difraksi:</strong> Gelombang melentur/menyebar saat melewati celah sempit.<br>
+                        4. <strong>Interferensi:</strong> Konstruktif (sefase, saling memperkuat) dan Destruktif (berlawanan fase, saling memperlemah).<br>
+                        5. <strong>Dispersi:</strong> Penguraian cahaya polikromatik akibat perbedaan indeks bias tiap warna.<br>
+                        6. <strong>Polarisasi:</strong> Penyaringan arah getar yang hanya berlaku untuk gelombang transversal.
+                    </div>
+                `;
+            });
+
+            // Reflection Rating Chips
+            const ratingChips = document.querySelectorAll('.rating-chip');
+            ratingChips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    playSound('click');
+                    ratingChips.forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    selectedUnderstanding = chip.getAttribute('data-val');
+                });
+            });
+
+            // Save Reflection Button
+            document.getElementById('save-reflection-btn').addEventListener('click', () => {
+                playSound('correct');
+                alert('Terima kasih! Refleksi diri Anda telah berhasil disimpan. Anda telah menyelesaikan seluruh tahapan Discovery Learning dengan sangat baik!');
+            });
+
+            // Dashboard Actions
+            document.getElementById('search-student').addEventListener('input', loadDashboardData);
+            document.getElementById('sort-score-select').addEventListener('change', loadDashboardData);
+            document.getElementById('clear-data-btn').addEventListener('click', () => {
+                if (confirm('Hapus seluruh riwayat data siswa yang tersimpan di browser ini?')) {
+                    localStorage.removeItem('wave_quiz_results');
+                    loadDashboardData();
+                    playSound('click');
+                }
+            });
+            document.getElementById('export-csv-btn').addEventListener('click', exportToCSV);
+        });
+
+        // --- RENDER PREDICTIONS ---
+        function renderPredictions() {
+            const container = document.getElementById('prediction-container');
+            container.innerHTML = '';
+            predictionItemsData.forEach(item => {
+                let div = document.createElement('div');
+                div.className = 'prediction-item';
+                div.innerHTML = `
+                    <h4>${item.title}</h4>
+                    <p style="margin-bottom: 12px; font-size: 0.95rem;">${item.q}</p>
+                    <div class="radio-group">
+                        <label class="radio-label"><input type="radio" name="pred_${item.id}" value="0"> ${item.options[0]}</label>
+                        <label class="radio-label"><input type="radio" name="pred_${item.id}" value="1"> ${item.options[1]}</label>
+                        <label class="radio-label"><input type="radio" name="pred_${item.id}" value="2"> ${item.options[2]}</label>
+                        <label class="radio-label"><input type="radio" name="pred_${item.id}" value="3"> ${item.options[3]}</label>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // --- RENDER DISCUSSION TABLE & QUESTIONS ---
+        function renderDiscussionTable() {
+            const tbody = document.getElementById('discussion-table-body');
+            tbody.innerHTML = `
+                <tr>
+                    <td><strong>Pemantulan</strong></td>
+                    <td>Memantul kembali ke asal</td>
+                    <td><textarea placeholder="Catat hasil pengamatan simulasi..."></textarea></td>
+                    <td><textarea placeholder="Tuliskan alasan ilmiah..."></textarea></td>
+                </tr>
+                <tr>
+                    <td><strong>Pembiasan</strong></td>
+                    <td>Membelok saat beda kedalaman</td>
+                    <td><textarea placeholder="Catat hasil pengamatan simulasi..."></textarea></td>
+                    <td><textarea placeholder="Tuliskan alasan ilmiah..."></textarea></td>
+                </tr>
+                <tr>
+                    <td><strong>Difraksi</strong></td>
+                    <td>Menyebar melewati celah</td>
+                    <td><textarea placeholder="Catat hasil pengamatan simulasi..."></textarea></td>
+                    <td><textarea placeholder="Tuliskan alasan ilmiah..."></textarea></td>
+                </tr>
+                <tr>
+                    <td><strong>Interferensi</strong></td>
+                    <td>Berpadu saling menguatkan</td>
+                    <td><textarea placeholder="Catat hasil pengamatan simulasi..."></textarea></td>
+                    <td><textarea placeholder="Tuliskan alasan ilmiah..."></textarea></td>
+                </tr>
+                <tr>
+                    <td><strong>Dispersi</strong></td>
+                    <td>Terurai jadi warna pelangi</td>
+                    <td><textarea placeholder="Catat hasil pengamatan simulasi..."></textarea></td>
+                    <td><textarea placeholder="Tuliskan alasan ilmiah..."></textarea></td>
+                </tr>
+                <tr>
+                    <td><strong>Polarisasi</strong></td>
+                    <td>Intensitas cahaya berkurang</td>
+                    <td><textarea placeholder="Catat hasil pengamatan simulasi..."></textarea></td>
+                    <td><textarea placeholder="Tuliskan alasan ilmiah..."></textarea></td>
+                </tr>
+            `;
+
+            const qContainer = document.getElementById('reflection-questions-container');
+            qContainer.innerHTML = '';
+            discussionQuestionsData.forEach((dq, index) => {
+                let box = document.createElement('div');
+                box.className = 'qa-box';
+                box.innerHTML = `
+                    <h5>Pertanyaan ${index + 1}: ${dq.q}</h5>
+                    <textarea placeholder="Tuliskan jawaban dan analisis Anda di sini..." id="disc_q_${dq.id}" style="width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--card-border); border-radius:6px; color:white; padding:10px; margin-top:5px; min-height:60px;"></textarea>
+                `;
+                qContainer.appendChild(box);
+            });
+        }
+
+        // --- INTERACTIVE SIMULATIONS (HTML5 CANVAS) ---
+        let simState = {
+            angle: 45,
+            depthRatio: 1.5,
+            slitWidth: 40,
+            frequency: 5,
+            polarAngle: 30,
+            prismColorIndex: 0,
+            time: 0
+        };
+
+        function initSimulation(type) {
+            if (simAnimFrame) cancelAnimationFrame(simAnimFrame);
+            const canvas = document.getElementById('simulation-canvas');
+            const ctx = canvas.getContext('2d');
+            const controlPanel = document.getElementById('sim-control-panel');
+
+            // Set canvas resolution
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = 380;
+
+            // Build Control Panel UI based on simulation type
+            if (type === 'reflection') {
+                controlPanel.innerHTML = `
+                    <h4>Kontrol Pemantulan</h4>
+                    <div class="control-group">
+                        <label>Sudut Datang (\(\theta\)): <span id="val-angle">${simState.angle}°</span></label>
+                        <input type="range" id="range-angle" min="10" max="80" value="${simState.angle}">
+                    </div>
+                    <div class="sim-buttons">
+                        <button class="btn" id="sim-reset">Reset</button>
+                    </div>
+                `;
+                document.getElementById('range-angle').addEventListener('input', (e) => {
+                    simState.angle = parseInt(e.target.value);
+                    document.getElementById('val-angle').innerText = simState.angle + '°';
+                });
+            } else if (type === 'refraction') {
+                controlPanel.innerHTML = `
+                    <h4>Kontrol Pembiasan</h4>
+                    <div class="control-group">
+                        <label>Rasio Kedalaman Medium: <span id="val-depth">${simState.depthRatio}</span></label>
+                        <input type="range" id="range-depth" min="1.0" max="2.5" step="0.1" value="${simState.depthRatio}">
+                    </div>
+                    <div class="control-group">
+                        <label>Sudut Datang: <span id="val-ref-angle">${simState.angle}°</span></label>
+                        <input type="range" id="range-ref-angle" min="15" max="75" value="${simState.angle}">
+                    </div>
+                `;
+                document.getElementById('range-depth').addEventListener('input', (e) => {
+                    simState.depthRatio = parseFloat(e.target.value);
+                    document.getElementById('val-depth').innerText = simState.depthRatio;
+                });
+                document.getElementById('range-ref-angle').addEventListener('input', (e) => {
+                    simState.angle = parseInt(e.target.value);
+                    document.getElementById('val-ref-angle').innerText = simState.angle + '°';
+                });
+            } else if (type === 'diffraction') {
+                controlPanel.innerHTML = `
+                    <h4>Kontrol Difraksi</h4>
+                    <div class="control-group">
+                        <label>Lebar Celah: <span id="val-slit">${simState.slitWidth} px</span></label>
+                        <input type="range" id="range-slit" min="20" max="120" value="${simState.slitWidth}">
+                    </div>
+                `;
+                document.getElementById('range-slit').addEventListener('input', (e) => {
+                    simState.slitWidth = parseInt(e.target.value);
+                    document.getElementById('val-slit').innerText = simState.slitWidth + ' px';
+                });
+            } else if (type === 'interference') {
+                controlPanel.innerHTML = `
+                    <h4>Kontrol Interferensi</h4>
+                    <div class="control-group">
+                        <label>Frekuensi Sumber: <span id="val-freq">${simState.frequency} Hz</span></label>
+                        <input type="range" id="range-freq" min="2" max="10" value="${simState.frequency}">
+                    </div>
+                `;
+                document.getElementById('range-freq').addEventListener('input', (e) => {
+                    simState.frequency = parseInt(e.target.value);
+                    document.getElementById('val-freq').innerText = simState.frequency + ' Hz';
+                });
+            } else if (type === 'dispersion') {
+                controlPanel.innerHTML = `
+                    <h4>Kontrol Dispersi Cahaya</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Cahaya putih polikromatik diuraikan oleh prisma kaca menjadi spektrum warna.</p>
+                `;
+            } else if (type === 'polarization') {
+                controlPanel.innerHTML = `
+                    <h4>Kontrol Polarisasi</h4>
+                    <div class="control-group">
+                        <label>Sudut Filter Kedua (\(\theta\)): <span id="val-polar">${simState.polarAngle}°</span></label>
+                        <input type="range" id="range-polar" min="0" max="180" value="${simState.polarAngle}">
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);" id="polar-intensity-text">Intensitas Relatif: 75%</p>
+                `;
+                document.getElementById('range-polar').addEventListener('input', (e) => {
+                    simState.polarAngle = parseInt(e.target.value);
+                    document.getElementById('val-polar').innerText = simState.polarAngle + '°';
+                    let rad = simState.polarAngle * Math.PI / 180;
+                    let intensity = Math.pow(Math.cos(rad), 2) * 100;
+                    document.getElementById('polar-intensity-text').innerText = `Intensitas Relatif: ${intensity.toFixed(1)}%`;
+                });
+            }
+
+            // Animation Loop Function
+            function renderSimFrame() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                simState.time += 0.05;
+
+                if (type === 'reflection') {
+                    // Draw Barrier wall
+                    ctx.fillStyle = '#334155';
+                    ctx.fillRect(canvas.width / 2 - 5, 50, 10, canvas.height - 100);
+
+                    // Incoming Wave Animation
+                    ctx.strokeStyle = '#38bdf8';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    let startX = 50, startY = canvas.height / 2;
+                    let rad = simState.angle * Math.PI / 180;
+                    
+                    // Wave ripples moving towards barrier
+                    for (let i = 0; i < 5; i++) {
+                        let offset = (simState.time * 30 + i * 40) % 200;
+                        let cx = canvas.width / 2 - 200 + offset;
+                        if (cx < canvas.width / 2) {
+                            ctx.moveTo(cx, 50);
+                            ctx.lineTo(cx, canvas.height - 50);
+                        }
+                    }
+                    ctx.stroke();
+
+                    // Reflected Wave
+                    ctx.strokeStyle = '#c084fc';
+                    ctx.beginPath();
+                    for (let i = 0; i < 5; i++) {
+                        let offset = (simState.time * 30 + i * 40) % 200;
+                        let cx = canvas.width / 2 + offset;
+                        if (cx < canvas.width - 50) {
+                            ctx.moveTo(cx, 50);
+                            ctx.lineTo(cx, canvas.height - 50);
+                        }
+                    }
+                    ctx.stroke();
+
+                    // Labels
+                    ctx.fillStyle = '#f8fafc';
+                    ctx.font = '14px Poppins';
+                    ctx.fillText('Gelombang Datang', 60, 40);
+                    ctx.fillText('Gelombang Pantul', canvas.width - 180, 40);
+
+                } else if (type === 'refraction') {
+                    // Deep vs Shallow split
+                    let splitX = canvas.width / 2;
+                    ctx.fillStyle = 'rgba(14, 165, 233, 0.15)';
+                    ctx.fillRect(0, 0, splitX, canvas.height);
+                    ctx.fillStyle = 'rgba(56, 189, 248, 0.35)';
+                    ctx.fillRect(splitX, 0, splitX, canvas.height);
+
+                    // Boundary line
+                    ctx.strokeStyle = '#94a3b8';
+                    ctx.setLineDash([5, 5]);
+                    ctx.beginPath();
+                    ctx.moveTo(splitX, 0);
+                    ctx.lineTo(splitX, canvas.height);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+
+                    // Wave wavefronts
+                    ctx.strokeStyle = '#38bdf8';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    for (let i = 0; i < 6; i++) {
+                        let x = (simState.time * 25 + i * 35) % splitX;
+                        ctx.moveTo(x, 50);
+                        ctx.lineTo(x, canvas.height - 50);
+                    }
+                    ctx.stroke();
+
+                    // Refracted wavefronts (closer wavelength due to depth ratio)
+                    ctx.strokeStyle = '#f43f5e';
+                    ctx.beginPath();
+                    let refractSpacing = 35 / simState.depthRatio;
+                    for (let i = 0; i < 6; i++) {
+                        let x = splitX + ((simState.time * (25 / simState.depthRatio) + i * refractSpacing) % (canvas.width / 2 - 50));
+                        ctx.moveTo(x, 50 + (x - splitX) * 0.2); // Bend angle
+                        ctx.lineTo(x, canvas.height - 50 + (x - splitX) * 0.2);
+                    }
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#38bdf8';
+                    ctx.fillText('Daerah Dalam (Cepat)', 40, 30);
+                    ctx.fillStyle = '#f43f5e';
+                    ctx.fillText('Daerah Dangkal (Lambat)', splitX + 40, 30);
+
+                } else if (type === 'diffraction') {
+                    let barrierX = canvas.width / 2;
+                    let halfSlit = simState.slitWidth / 2;
+
+                    // Barrier walls
+                    ctx.fillStyle = '#475569';
+                    ctx.fillRect(barrierX - 8, 0, 16, canvas.height / 2 - halfSlit);
+                    ctx.fillRect(barrierX - 8, canvas.height / 2 + halfSlit, 16, canvas.height / 2 - halfSlit);
+
+                    // Incoming plane waves
+                    ctx.strokeStyle = '#38bdf8';
+                    ctx.lineWidth = 2;
+                    for (let i = 0; i < 5; i++) {
+                        let x = (simState.time * 25 + i * 40) % barrierX;
+                        ctx.beginPath();
+                        ctx.moveTo(x, 40);
+                        ctx.lineTo(x, canvas.height - 40);
+                        ctx.stroke();
+                    }
+
+                    // Circular diffracted waves after slit
+                    ctx.strokeStyle = '#c084fc';
+                    ctx.lineWidth = 2;
+                    let radius = (simState.time * 30) % 250;
+                    for (let r = 20; r < radius; r += 35) {
+                        ctx.beginPath();
+                        ctx.arc(barrierX, canvas.height / 2, r, -Math.PI / 3, Math.PI / 3);
+                        ctx.stroke();
+                    }
+
+                    ctx.fillStyle = '#f8fafc';
+                    ctx.font = '13px Poppins';
+                    ctx.fillText('Muka Gelombang Datang', 40, 30);
+                    ctx.fillText('Pola Difraksi Melingkar', barrierX + 40, 30);
+
+                } else if (type === 'interference') {
+                    let cx1 = canvas.width / 3, cy1 = canvas.height / 2;
+                    let cx2 = (canvas.width / 3) * 2, cy2 = canvas.height / 2;
+
+                    // Draw rippling circles from two sources
+                    let maxR = (simState.time * 30 * (simState.frequency / 5)) % 180;
+                    for (let r = 15; r < maxR; r += 25) {
+                        // Source 1
+                        ctx.strokeStyle = 'rgba(56, 189, 248, 0.6)';
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.arc(cx1, cy1, r, 0, Math.PI * 2);
+                        ctx.stroke();
+
+                        // Source 2
+                        ctx.strokeStyle = 'rgba(239, 68, 68, 0.6)';
+                        ctx.beginPath();
+                        ctx.arc(cx2, cy2, r, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+
+                    // Source points
+                    ctx.fillStyle = '#38bdf8';
+                    ctx.beginPath(); ctx.arc(cx1, cy1, 6, 0, Math.PI * 2); ctx.fill();
+                    ctx.fillStyle = '#f43f5e';
+                    ctx.beginPath(); ctx.arc(cx2, cy2, 6, 0, Math.PI * 2); ctx.fill();
+
+                    ctx.fillStyle = '#f8fafc';
+                    ctx.fillText('Sumber A (Biru)', cx1 - 50, cy1 - 40);
+                    ctx.fillText('Sumber B (Merah)', cx2 - 50, cy2 - 40);
+                    ctx.fillText('Pola Interferensi Konstruktif & Destruktif di tengah', canvas.width / 2 - 150, canvas.height - 20);
+
+                } else if (type === 'dispersion') {
+                    let px = canvas.width / 2, py = canvas.height / 2;
+
+                    // Draw Prism Triangle
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+                    ctx.strokeStyle = '#38bdf8';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(px, py - 70);
+                    ctx.lineTo(px - 60, py + 70);
+                    ctx.lineTo(px + 60, py + 70);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Incoming white light ray
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    ctx.moveTo(px - 180, py);
+                    ctx.lineTo(px - 20, py + 10);
+                    ctx.stroke();
+
+                    // Dispersed rainbow spectrum rays exiting prisma
+                    const colors = ['#ef4444', '#f97316', '#eab308', '#10b981', '#06b6d4', '#6366f1', '#a855f7'];
+                    colors.forEach((col, idx) => {
+                        ctx.strokeStyle = col;
+                        ctx.lineWidth = 2.5;
+                        ctx.beginPath();
+                        ctx.moveTo(px + 20, py + 10);
+                        let angleOffset = (idx - 3) * 0.08;
+                        ctx.lineTo(px + 180, py + (idx - 3) * 25 + angleOffset * 100);
+                        ctx.stroke();
+                    });
+
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = '13px Poppins';
+                    ctx.fillText('Cahaya Putih', px - 160, py - 20);
+                    ctx.fillText('Spektrum Warna (Me-Ji-Ku-Hi-Bi-Ni-U)', px + 50, py - 60);
+
+                } else if (type === 'polarization') {
+                    let cx = canvas.width / 2;
+                    
+                    // Transversal Wave incoming
+                    ctx.strokeStyle = '#38bdf8';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    for (let x = 50; x < cx - 40; x += 2) {
+                        let y = canvas.height / 2 + Math.sin(x * 0.03 + simState.time * 2) * 40;
+                        if (x === 50) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+
+                    // Filter 1 (Vertical)
+                    ctx.fillStyle = 'rgba(6, 182, 212, 0.4)';
+                    ctx.fillRect(cx - 50, canvas.height / 2 - 70, 10, 140);
+
+                    // Filter 2 (Rotated by polarAngle)
+                    let rad = simState.polarAngle * Math.PI / 180;
+                    let alpha = Math.pow(Math.cos(rad), 2);
+                    ctx.fillStyle = `rgba(139, 92, 246, ${0.2 + alpha * 0.6})`;
+                    ctx.fillRect(cx + 80, canvas.height / 2 - 70, 10, 140);
+
+                    // Transversal Wave outgoing (attenuated)
+                    ctx.strokeStyle = '#c084fc';
+                    ctx.lineWidth = 3 * Math.max(0.1, alpha);
+                    ctx.beginPath();
+                    for (let x = cx + 100; x < canvas.width - 50; x += 2) {
+                        let y = canvas.height / 2 + Math.sin(x * 0.03 + simState.time * 2) * 40 * Math.cos(rad);
+                        if (x === cx + 100) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#f8fafc';
+                    ctx.font = '13px Poppins';
+                    ctx.fillText('Filter 1 (0°)', cx - 70, canvas.height / 2 - 80);
+                    ctx.fillText(`Filter 2 (${simState.polarAngle}°)`, cx + 60, canvas.height / 2 - 80);
+                }
+
+                simAnimFrame = requestAnimationFrame(renderSimFrame);
+            }
+            renderSimFrame();
+        }
+
+        // --- QUIZ LOGIC ---
+        function initQuiz() {
+            currentQuizIndex = 0;
+            userAnswers = {};
+            quizSubmitted = false;
+            document.getElementById('quiz-active-area').classList.remove('hidden');
+            document.getElementById('quiz-result-area').classList.add('hidden');
+            renderQuizQuestion();
+
+            // Quiz navigation listeners
+            document.getElementById('quiz-next-btn').onclick = () => {
+                if (currentQuizIndex < quizQuestions.length - 1) {
+                    currentQuizIndex++;
+                    renderQuizQuestion();
+                    playSound('click');
+                } else {
+                    submitQuiz();
+                }
+            };
+
+            document.getElementById('quiz-prev-btn').onclick = () => {
+                if (currentQuizIndex > 0) {
+                    currentQuizIndex--;
+                    renderQuizQuestion();
+                    playSound('click');
+                }
+            };
+        }
+
+        function renderQuizQuestion() {
+            const q = quizQuestions[currentQuizIndex];
+            document.getElementById('quiz-progress-text').innerText = `Soal ${currentQuizIndex + 1} dari ${quizQuestions.length}`;
+            document.getElementById('quiz-progress-fill').style.width = `${((currentQuizIndex + 1) / quizQuestions.length) * 100}%`;
+            document.getElementById('quiz-question-text').innerText = q.question;
+
+            const optionsList = document.getElementById('quiz-options-list');
+            optionsList.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                let div = document.createElement('div');
+                div.className = 'option-item';
+                if (userAnswers[currentQuizIndex] === idx) {
+                    div.classList.add('selected');
+                }
+                div.innerHTML = `<i class="fa-regular fa-circle" style="color: var(--secondary);"></i> <span>${opt}</span>`;
+                div.onclick = () => {
+                    userAnswers[currentQuizIndex] = idx;
+                    playSound('click');
+                    renderQuizQuestion();
+                };
+                optionsList.appendChild(div);
+            });
+
+            document.getElementById('quiz-prev-btn').style.display = currentQuizIndex === 0 ? 'none' : 'block';
+            document.getElementById('quiz-next-btn').innerText = currentQuizIndex === quizQuestions.length - 1 ? 'Selesai & Lihat Nilai' : 'Berikutnya ';
+            if(currentQuizIndex < quizQuestions.length - 1) {
+                document.getElementById('quiz-next-btn').innerHTML += '<i class="fa-solid fa-arrow-right"></i>';
+            }
+        }
+
+        function submitQuiz() {
+            if (quizSubmitted) return;
+            quizSubmitted = true;
+
+            let correctCount = 0;
+            quizQuestions.forEach((q, idx) => {
+                if (userAnswers[idx] === q.answer) {
+                    correctCount++;
+                }
+            });
+
+            let score = (correctCount / quizQuestions.length) * 100;
+            let incorrectCount = quizQuestions.length - correctCount;
+            let nowTime = new Date().toLocaleString('id-ID');
+
+            let category = "Perlu Belajar Lagi";
+            if (score >= 90) category = "Sangat Baik";
+            else if (score >= 80) category = "Baik";
+            else if (score >= 70) category = "Cukup";
+
+            playSound(score >= 70 ? 'correct' : 'incorrect');
+
+            // Save result to localStorage
+            let results = JSON.parse(localStorage.getItem('wave_quiz_results') || '[]');
+            results.push({
+                name: currentUser.name,
+                grade: currentUser.grade,
+                date: nowTime,
+                correct: correctCount,
+                incorrect: incorrectCount,
+                score: score,
+                category: category
+            });
+            localStorage.setItem('wave_quiz_results', JSON.stringify(results));
+
+            // Render result view
+            document.getElementById('quiz-active-area').classList.add('hidden');
+            const resultArea = document.getElementById('quiz-result-area');
+            resultArea.classList.remove('hidden');
+
+            resultArea.innerHTML = `
+                <div class="result-score-box">
+                    <h3>Hasil Tantangan Ahli Gelombang</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Siswa: <strong>${currentUser.name}</strong> (${currentUser.grade})</p>
+                    <div class="score-circle" style="--percentage: ${score};">
+                        <div class="score-number">${score}</div>
+                    </div>
+                    <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 8px;">Kategori: <span style="color: var(--secondary);">${category}</span></p>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Benar: ${correctCount} | Salah: ${incorrectCount} dari ${quizQuestions.length} soal</p>
+                    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn" id="retry-quiz-btn" style="width: auto;"><i class="fa-solid fa-rotate-right"></i> Ulangi Kuis</button>
+                        <button class="btn btn-secondary" id="view-discussion-review-btn" style="width: auto;"><i class="fa-solid fa-book-open"></i> Lihat Pembahasan</button>
+                    </div>
+                </div>
+                <div id="quiz-review-list" class="hidden" style="margin-top: 30px; text-align: left;">
+                    <h4 style="margin-bottom: 15px; color: var(--secondary);">Pembahasan Soal Kuis:</h4>
+                    ${quizQuestions.map((q, i) => `
+                        <div style="background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); padding: 15px; border-radius: 10px; margin-bottom: 12px;">
+                            <p style="font-weight: 600; margin-bottom: 8px;">${i+1}.${q.question}</p>
+                            <p style="font-size: 0.9rem; color: #6ee7b7; margin-bottom: 4px;">Jawaban Benar: ${q.options[q.answer]}</p>
+                            <p style="font-size: 0.85rem; color: var(--text-muted);"><em>Pembahasan:</em> ${q.explanation}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            document.getElementById('retry-quiz-btn').onclick = () => {
+                playSound('click');
+                initQuiz();
+            };
+
+            document.getElementById('view-discussion-review-btn').onclick = () => {
+                playSound('click');
+                document.getElementById('quiz-review-list').classList.toggle('hidden');
+            };
+        }
+
+        // --- DASHBOARD GURU & CSV EXPORT ---
+        function loadDashboardData() {
+            let results = JSON.parse(localStorage.getItem('wave_quiz_results') || '[]');
+            const searchVal = document.getElementById('search-student').value.toLowerCase();
+            const sortVal = document.getElementById('sort-score-select').value;
+
+            // Filter by search
+            if (searchVal) {
+                results = results.filter(r => r.name.toLowerCase().includes(searchVal) || r.grade.toLowerCase().includes(searchVal));
+            }
+
+            // Sort
+            if (sortVal === 'highest') {
+                results.sort((a, b) => b.score - a.score);
+            } else if (sortVal === 'lowest') {
+                results.sort((a, b) => a.score - b.score);
+            } else {
+                // latest reverse
+                results.reverse();
+            }
+
+            // Stats calculation
+            let allResults = JSON.parse(localStorage.getItem('wave_quiz_results') || '[]');
+            document.getElementById('stat-total').innerText = allResults.length;
+            if (allResults.length > 0) {
+                let sum = allResults.reduce((acc, curr) => acc + curr.score, 0);
+                document.getElementById('stat-avg').innerText = (sum / allResults.length).toFixed(1);
+                let max = Math.max(...allResults.map(r => r.score));
+                let min = Math.min(...allResults.map(r => r.score));
+                document.getElementById('stat-max').innerText = max;
+                document.getElementById('stat-min').innerText = min;
+            } else {
+                document.getElementById('stat-avg').innerText = '0';
+                document.getElementById('stat-max').innerText = '0';
+                document.getElementById('stat-min').innerText = '0';
+            }
+
+            // Populate table
+            const tbody = document.getElementById('dashboard-table-body');
+            tbody.innerHTML = '';
+            if (results.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Belum ada data pengerjaan kuis siswa yang tersimpan.</td></tr>`;
+                return;
+            }
+
+            results.forEach((r, idx) => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${idx + 1}</td>
+                    <td><strong>${r.name}</strong></td>
+                    <td>${r.grade}</td>
+                    <td>${r.date}</td>
+                    <td>${r.correct} / ${r.incorrect}</td>
+                    <td><strong style="color: var(--secondary);">${r.score}</strong></td>
+                    <td><span style="padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; background: rgba(6,182,212,0.15); color: var(--secondary);">${r.category}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function exportToCSV() {
+            let results = JSON.parse(localStorage.getItem('wave_quiz_results') || '[]');
+            if (results.length === 0) {
+                alert('Tidak ada data untuk diekspor.');
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,No,Nama Siswa,Kelas,Tanggal,Jawaban Benar,Jawaban Salah,Skor Akhir,Kategori\n";
+            results.forEach((r, index) => {
+                csvContent += `${index + 1},"${r.name}","${r.grade}","${r.date}",${r.correct},${r.incorrect},${r.score},"${r.category}"\n`;
+            });
+
+            let encodedUri = encodeURI(csvContent);
+            let link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Nilai_Siswa_Sifat_Gelombang.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            playSound('correct');
+        }
+    </script>
+</body>
+</html>
