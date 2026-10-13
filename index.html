@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Fisika: Sifat-Sifat Gelombang Kelas XI</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1e3a8a;       /* Biru Tua */
+            --secondary: #3b82f6;     /* Biru Terang / Modern */
+            --accent: #f97316;        /* Oranye Aksen */
+            --bg-main: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --success: #10b981;
+            --danger: #ef4444;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header & Navigasi */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-area i {
+            font-size: 1.8rem;
+            color: var(--accent);
+        }
+
+        .logo-area h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links button {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 600;
+            padding: 0.5rem 0.85rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .nav-links button:hover, .nav-links button.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+        }
+
+        /* Progress Bar Global */
+        .global-progress-container {
+            background: rgba(0,0,0,0.15);
+            height: 6px;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        .global-progress-bar {
+            background: var(--accent);
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* Container Utama */
+        main {
+            max-width: 1100px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            flex: 1;
+        }
+
+        .page-section {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Halaman Pembuka */
+        .hero-banner {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: var(--white);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .hero-banner h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .hero-banner p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .badge-kelas {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--white);
+            padding: 0.35rem 1rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            padding: 0.85rem 2rem;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(249, 115, 22, 0.4);
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background: #ea580c;
+        }
+
+        .instructions-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .instructions-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .instructions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .instruction-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .instruction-item i {
+            background: #eff6ff;
+            color: var(--secondary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.1rem;
+        }
+
+        .instruction-item h4 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            color: var(--text-dark);
+        }
+
+        .instruction-item p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Halaman Tujuan Pembelajaran */
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-desc {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .tujuan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .tujuan-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .tujuan-card .number {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--secondary);
+            color: var(--white);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .tujuan-card p {
+            margin-top: 0.5rem;
+            font-size: 1rem;
+            color: var(--text-dark);
+        }
+
+        /* Kartu Materi / Sifat Gelombang */
+        .materi-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .materi-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media(min-width: 768px) {
+            .materi-card {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+
+        .materi-content h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .materi-content p {
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .materi-meta {
+            background: #f1f5f9;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .materi-meta strong {
+            color: var(--primary);
+        }
+
+        .materi-sidebar {
+            background: #eff6ff;
+            border-radius: 8px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .materi-sidebar h4 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .materi-sidebar ul {
+            list-style-type: disc;
+            margin-left: 1.2rem;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--white);
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: #2563eb;
+        }
+
+        /* Tabel Perbandingan */
+        .table-wrapper {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+            margin-top: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: #f1f5f9;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        /* Halaman Simulasi Interaktif */
+        .simulasi-wrapper {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .simulasi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .simulasi-nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            width: 100%;
+        }
+
+        .sim-tab-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: var(--transition);
+            color: var(--text-dark);
+        }
+
+        .sim-tab-btn.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .sim-box {
+            display: none;
+        }
+
+        .sim-box.active {
+            display: block;
+        }
+
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            background: #0f172a;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        canvas {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .sim-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+            background: #f8fafc;
+            padding: 1.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .control-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .control-group input[type="range"] {
+            width: 100%;
+            accent-color: var(--secondary);
+            cursor: pointer;
+        }
+
+        .sim-info-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--secondary);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .sim-questions {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .sim-questions h5 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .sim-questions p {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .sim-questions textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            font-family: inherit;
+            font-size: 0.85rem;
+            resize: vertical;
+            height: 60px;
+        }
+
+        .sim-action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Halaman Kuis Interaktif */
+        .quiz-wrapper {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .quiz-header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+        }
+
+        .quiz-question-box h3 {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-option {
+            background: #f8fafc;
+            border: 2px solid var(--border-color);
+            padding: 0.85rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--secondary);
+            background: #eff6ff;
+        }
+
+        .quiz-option input {
+            accent-color: var(--secondary);
+        }
+
+        .quiz-option.correct {
+            background: #d1fae5;
+            border-color: var(--success);
+            color: #065f46;
+        }
+
+        .quiz-option.incorrect {
+            background: #fee2e2;
+            border-color: var(--danger);
+            color: #991b1b;
+        }
+
+        .quiz-feedback {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct-fb {
+            background: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .quiz-feedback.incorrect-fb {
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .quiz-score-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .quiz-score-card h3 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 1.5rem auto;
+            box-shadow: var(--shadow);
+        }
+
+        /* Halaman Refleksi */
+        .refleksi-wrapper {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .refleksi-form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .refleksi-form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .refleksi-form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-family: inherit;
+            font-size: 0.95rem;
+            height: 90px;
+            resize: vertical;
+        }
+
+        .emoji-selector {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .emoji-option {
+            background: #f8fafc;
+            border: 2px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .emoji-option input {
+            display: none;
+        }
+
+        .emoji-option.selected {
+            border-color: var(--accent);
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        .range-slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .range-scale {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .alert-toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: var(--white);
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 2000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .alert-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.85rem;
+            margin-top: auto;
+        }
+
+        footer span {
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        /* Responsif HP */
+        @media(max-width: 600px) {
+            .hero-banner h2 {
+                font-size: 1.8rem;
+            }
+            header {
+                padding: 0.75rem 1rem;
+            }
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .nav-links {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigasi -->
+    <header>
+        <div class="navbar">
+            <div class="logo-area">
+                <i class="fa-solid fa-wave-square"></i>
+                <h1>Fisika Kelas XI - Gelombang</h1>
+            </div>
+            <ul class="nav-links">
+                <li><button class="nav-btn active" onclick="switchPage('home')"><i class="fa-solid fa-house"></i> Beranda</button></li>
+                <li><button class="nav-btn" onclick="switchPage('tujuan')"><i class="fa-solid fa-bullseye"></i> Tujuan</button></li>
+                <li><button class="nav-btn" onclick="switchPage('materi')"><i class="fa-solid fa-book-open"></i> Materi</button></li>
+                <li><button class="nav-btn" onclick="switchPage('simulasi')"><i class="fa-solid fa-laptop-code"></i> Simulasi</button></li>
+                <li><button class="nav-btn" onclick="switchPage('kuis')"><i class="fa-solid fa-circle-question"></i> Kuis</button></li>
+                <li><button class="nav-btn" onclick="switchPage('refleksi')"><i class="fa-solid fa-pen-to-square"></i> Refleksi</button></li>
+            </ul>
+        </div>
+        <div class="global-progress-container">
+            <div class="global-progress-bar" id="globalProgressBar"></div>
+        </div>
+    </header>
+
+    <!-- Konten Utama -->
+    <main>
+
+        <!-- 1. HALAMAN PEMBUKA -->
+        <section id="page-home" class="page-section active">
+            <div class="hero-banner">
+                <span class="badge-kelas">Fisika Kelas XI SMA/MA</span>
+                <h2>SIFAT-SIFAT GELOMBANG</h2>
+                <p>Jelajahi fenomena pemantulan, pembiasan, difraksi, interferensi, polarisasi, dan dispersi gelombang melalui penjelasan interaktif dan simulasi visual digital.</p>
+                <button class="btn-primary" onclick="switchPage('tujuan')">Mulai Belajar <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+
+            <div class="instructions-card">
+                <h3><i class="fa-solid fa-compass"></i> Panduan Penggunaan Media</h3>
+                <p>Media pembelajaran mandiri ini dirancang agar dapat dieksplorasi secara fleksibel. Ikuti langkah-langkah di bawah ini:</p>
+                <div class="instructions-grid">
+                    <div class="instruction-item">
+                        <i class="fa-solid fa-1"></i>
+                        <div>
+                            <h4>Pahami Tujuan</h4>
+                            <p>Cek target pembelajaran untuk mengetahui kompetensi yang akan dicapai.</p>
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <i class="fa-solid fa-2"></i>
+                        <div>
+                            <h4>Pelajari Materi</h4>
+                            <p>Baca rangkuman singkat dan pahami contoh dalam kehidupan sehari-hari.</p>
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <i class="fa-solid fa-3"></i>
+                        <div>
+                            <h4>Eksplorasi Simulasi</h4>
+                            <p>Mainkan 6 simulasi interaktif untuk melihat langsung hukum fisika bekerja.</p>
+                        </div>
+                    </div>
+                    <div class="instruction-item">
+                        <i class="fa-solid fa-4"></i>
+                        <div>
+                            <h4>Uji Pemahaman & Refleksi</h4>
+                            <p>Kerjakan 15 soal kuis pilihan ganda dan tuliskan refleksi belajar Anda.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. HALAMAN TUJUAN PEMBELAJARAN -->
+        <section id="page-tujuan" class="page-section">
+            <h2 class="section-title">Tujuan Pembelajaran</h2>
+            <p class="section-desc">Target kompetensi yang harus dicapai setelah mempelajari topik sifat-sifat gelombang.</p>
+            
+            <div class="tujuan-grid">
+                <div class="tujuan-card">
+                    <div class="number">1</div>
+                    <p>Menjelaskan pengertian dasar mengenai konsep sifat-sifat gelombang secara ilmiah dan runtut.</p>
+                </div>
+                <div class="tujuan-card">
+                    <div class="number">2</div>
+                    <p>Mengidentifikasi enam sifat utama gelombang: pemantulan, pembiasan, difraksi, interferensi, polarisasi, dan dispersi.</p>
+                </div>
+                <div class="tujuan-card">
+                    <div class="number">3</div>
+                    <p>Menjelaskan perbedaan setiap sifat gelombang berdasarkan konsep besaran Fisika yang mendasarinya.</p>
+                </div>
+                <div class="tujuan-card">
+                    <div class="number">4</div>
+                    <p>Mengamati dan mengeksplorasi simulasi digital untuk memahami fenomena gelombang secara visual.</p>
+                </div>
+                <div class="tujuan-card">
+                    <div class="number">5</div>
+                    <p>Menghubungkan konsep sifat-sifat gelombang dengan berbagai penerapan dalam kehidupan sehari-hari.</p>
+                </div>
+                <div class="tujuan-card">
+                    <div class="number">6</div>
+                    <p>Mengevaluasi tingkat pemahaman diri melalui kuis interaktif dan lembar refleksi akhir pembelajaran.</p>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <button class="btn-primary" onclick="switchPage('materi')">Lanjut ke Rangkuman Materi <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </section>
+
+        <!-- 3. HALAMAN RANGKUMAN MATERI -->
+        <section id="page-materi" class="page-section">
+            <h2 class="section-title">Rangkuman Materi Sifat-Sifat Gelombang</h2>
+            <p class="section-desc">Enam sifat penting yang membedakan karakteristik gelombang saat merambat dan berinteraksi.</p>
+
+            <div class="materi-container">
+                <!-- A. Pemantulan -->
+                <div class="materi-card">
+                    <div class="materi-content">
+                        <h3><i class="fa-solid fa-right-left"></i> A. Pemantulan (Refleksi)</h3>
+                        <p>Pemantulan adalah peristiwa ketika gelombang mengenai suatu penghalang atau batas medium lalu dipantulkan kembali ke medium asalnya.</p>
+                        <div class="materi-meta">
+                            <strong>Prinsip Utama:</strong> Sudut datang ($i$) selalu sama dengan sudut pantul ($r$), diukur terhadap garis normal (tegak lurus bidang pantul).
+                        </div>
+                        <p><strong>Contoh dalam Kehidupan:</strong> Gema pantulan bunyi di dinding tebing, gelombang air laut memantul pada dinding dermaga, dan pemantulan cahaya pada cermin datar.</p>
+                    </div>
+                    <div class="materi-sidebar">
+                        <h4>Simulasi Terkait</h4>
+                        <p>Uji hukum pemantulan dengan mengatur besar sudut datang.</p>
+                        <button class="btn-secondary" onclick="goToSimulation(0)"><i class="fa-solid fa-play"></i> Coba Simulasi 1</button>
+                    </div>
+                </div>
+
+                <!-- B. Pembiasan -->
+                <div class="materi-card">
+                    <div class="materi-content">
+                        <h3><i class="fa-solid fa-water"></i> B. Pembiasan (Refraksi)</h3>
+                        <p>Pembiasan adalah perubahan arah rambat gelombang akibat perubahan kecepatan ketika memasuki wilayah atau medium dengan karakteristik berbeda (kerapatan optik/fisik).</p>
+                        <div class="materi-meta">
+                            <strong>Catatan Penting:</strong> Frekuensi gelombang tetap saat melewati batas dua medium, namun kecepatan dan panjang gelombangnya berubah, mengakibatkan pembelokan arah rambat.
+                        </div>
+                        <p><strong>Contoh dalam Kehidupan:</strong> Gelombang air laut yang melambat saat mendekati pantai yang dangkal, dan pensil terlihat patah di dalam gelas berisi air.</p>
+                    </div>
+                    <div class="materi-sidebar">
+                        <h4>Simulasi Terkait</h4>
+                        <p>Atur kecepatan medium 1 dan medium 2 untuk melihat pembiasan.</p>
+                        <button class="btn-secondary" onclick="goToSimulation(1)"><i class="fa-solid fa-play"></i> Coba Simulasi 2</button>
+                    </div>
+                </div>
+
+                <!-- C. Difraksi -->
+                <div class="materi-card">
+                    <div class="materi-content">
+                        <h3><i class="fa-solid fa-bars-staggered"></i> C. Difraksi (Pelenturan)</h3>
+                        <p>Difraksi adalah peristiwa penyebaran atau pembelokan gelombang ketika melewati celah sempit atau tepi penghalang.</p>
+                        <div class="materi-meta">
+                            <strong>Ciri Utama:</strong> Difraksi akan terlihat sangat jelas dan dominan apabila ukuran celah atau penghalang sebanding atau lebih kecil daripada panjang gelombang ($\lambda$).
+                        </div>
+                        <p><strong>Contoh dalam Kehidupan:</strong> Suara percakapan di dalam ruangan tetap terdengar oleh orang di balik pintu yang terbuka sedikit.</p>
+                    </div>
+                    <div class="materi-sidebar">
+                        <h4>Simulasi Terkait</h4>
+                        <p>Ubah lebar celah penghalang dan amati pola lenturan gelombang.</p>
+                        <button class="btn-secondary" onclick="goToSimulation(2)"><i class="fa-solid fa-play"></i> Coba Simulasi 3</button>
+                    </div>
+                </div>
+
+                <!-- D. Interferensi -->
+                <div class="materi-card">
+                    <div class="materi-content">
+                        <h3><i class="fa-solid fa-circle-nodes"></i> D. Interferensi (Perpaduan Gelombang)</h3>
+                        <p>Interferensi terjadi ketika dua atau lebih gelombang yang koheren bertemu dan berpadu di suatu titik di medium.</p>
+                        <div class="materi-meta">
+                            <strong>Dua Jenis Interferensi:</strong><br>
+                            • <em>Konstruktif (Sekemban):</em> Fase sejenis, amplitudo resultan saling memperkuat (membesar).<br>
+                            • <em>Destruktif (Berlawanan):</em> Fase berlawanan, amplitudo saling melemahkan/meniadakan.
+                        </div>
+                        <p><strong>Contoh dalam Kehidupan:</strong> Pola garis-garis riak air di kolam saat dua batu dijatuhkan bersamaan.</p>
+                    </div>
+                    <div class="materi-sidebar">
+                        <h4>Simulasi Terkait</h4>
+                        <p>Amati perpaduan gelombang dari dua sumber titik bersamaan.</p>
+                        <button class="btn-secondary" onclick="goToSimulation(3)"><i class="fa-solid fa-play"></i> Coba Simulasi 4</button>
+                    </div>
+                </div>
+
+                <!-- E. Polarisasi -->
+                <div class="materi-card">
+                    <div class="materi-content">
+                        <h3><i class="fa-solid fa-filter"></i> E. Polarisasi</h3>
+                        <p>Polarisasi adalah peristiwa pembatasan arah getar gelombang transversal pada satu bidang getar tertentu saja.</p>
+                        <div class="materi-meta">
+                            <strong>Ciri Utama:</strong> Polarisasi hanya dapat terjadi pada **gelombang transversal**, dan **tidak dapat** terjadi pada gelombang longitudinal (seperti bunyi di udara).
+                        </div>
+                        <p><strong>Contoh dalam Kehidupan:</strong> Penggunaan kacamata hitam polarisasi untuk meredam silau pantulan cahaya matahari pada permukaan jalan atau air.</p>
+                    </div>
+                    <div class="materi-sidebar">
+                        <h4>Simulasi Terkait</h4>
+                        <p>Putar sudut filter polarisasi untuk mengatur intensitas gelombang.</p>
+                        <button class="btn-secondary" onclick="goToSimulation(4)"><i class="fa-solid fa-play"></i> Coba Simulasi 5</button>
+                    </div>
+                </div>
+
+                <!-- F. Dispersi -->
+                <div class="materi-card">
+                    <div class="materi-content">
+                        <h3><i class="fa-solid fa-rainbow"></i> F. Dispersi</h3>
+                        <p>Dispersi adalah penguraian gelombang polikromatik (kompleks) menjadi komponen-komponen monokromatik akibat perbedaan kecepatan rambat berdasarkan frekuensi/panjang gelombang.</p>
+                        <div class="materi-meta">
+                            <strong>Prinsip Utama:</strong> Indeks bias medium berbeda untuk setiap panjang gelombang warna, sehingga sudut pembiasan warna merah dan ungu berbeda saat melewati prisma.
+                        </div>
+                        <p><strong>Contoh dalam Kehidupan:</strong> Pembentukan pelangi di langit setelah hujan dan cahaya putih yang diuraikan oleh prisma kaca.</p>
+                    </div>
+                    <div class="materi-sidebar">
+                        <h4>Simulasi Terkait</h4>
+                        <p>Uraikan berkas cahaya putih menjadi spektrum warna lewat prisma.</p>
+                        <button class="btn-secondary" onclick="goToSimulation(5)"><i class="fa-solid fa-play"></i> Coba Simulasi 6</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabel Rangkuman -->
+            <div class="table-wrapper">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;"><i class="fa-solid fa-table"></i> Tabel Perbandingan Sifat Gelombang</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sifat Gelombang</th>
+                            <th>Pengertian Singkat</th>
+                            <th>Ciri Utama / Prinsip</th>
+                            <th>Contoh Nyata</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Pemantulan</strong></td>
+                            <td>Gelombang kembali ke medium asal setelah menabrak batas.</td>
+                            <td>Sudut datang ($i$) = Sudut pantul ($r$).</td>
+                            <td>Gema suara & cermin datar.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pembiasan</strong></td>
+                            <td>Pembelokan arah akibat perbedaan kecepatan antar medium.</td>
+                            <td>Frekuensi tetap, panjang gelombang berubah.</td>
+                            <td>Pensil patah di air & gelombang laut dangkal.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Difraksi</strong></td>
+                            <td>Penyebaran gelombang saat melewati celah sempit.</td>
+                            <td>Jelas terlihat jika ukuran celah $\approx$ panjang gelombang.</td>
+                            <td>Suara dari balik pintu terbuka.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Interferensi</strong></td>
+                            <td>Perpaduan dua gelombang atau lebih di suatu titik.</td>
+                            <td>Konstruktif (menguatkan) & Destruktif (melemahkan).</td>
+                            <td>Riak air dua sumber getar.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Polarisasi</strong></td>
+                            <td>Penyaringan arah getar gelombang transversal.</td>
+                            <td>Hanya terjadi pada gelombang transversal.</td>
+                            <td>Kacamata anti-silau polarisasi.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dispersi</strong></td>
+                            <td>Penguraian cahaya polikromatik berdasarkan frekuensi.</td>
+                            <td>Indeks bias berbeda tiap panjang gelombang.</td>
+                            <td>Pelangi & prisma kaca.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 2rem; text-align: right;">
+                <button class="btn-primary" onclick="switchPage('simulasi')">Lanjut ke Simulasi Interaktif <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </section>
+
+        <!-- 4. HALAMAN SIMULASI INTERAKTIF -->
+        <section id="page-simulasi" class="page-section">
+            <h2 class="section-title">Laboratorium Simulasi Interaktif</h2>
+            <p class="section-desc">Eksplorasi parameter fisika secara langsung pada 6 simulasi gelombang digital.</p>
+
+            <div class="simulasi-wrapper">
+                <!-- Navigasi Tab Simulasi -->
+                <div class="simulasi-header">
+                    <div class="simulasi-nav-tabs">
+                        <button class="sim-tab-btn active" onclick="switchSim(0)">1. Pemantulan</button>
+                        <button class="sim-tab-btn" onclick="switchSim(1)">2. Pembiasan</button>
+                        <button class="sim-tab-btn" onclick="switchSim(2)">3. Difraksi</button>
+                        <button class="sim-tab-btn" onclick="switchSim(3)">4. Interferensi</button>
+                        <button class="sim-tab-btn" onclick="switchSim(4)">5. Polarisasi</button>
+                        <button class="sim-tab-btn" onclick="switchSim(5)">6. Dispersi</button>
+                    </div>
+                </div>
+
+                <!-- SIMULASI 1: PEMANTULAN -->
+                <div id="sim-0" class="sim-box active">
+                    <h3 style="color: var(--primary); margin-bottom: 0.5rem;"><i class="fa-solid fa-right-left"></i> Simulasi 1: Pemantulan Gelombang</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem;">Atur sudut datang gelombang dan amati sudut pantul pada bidang batas.</p>
+                    
+                    <div class="canvas-container">
+                        <canvas id="canvasSim0" width="700" height="350"></canvas>
+                    </div>
+
+                    <div class="sim-controls">
+                        <div class="control-group">
+                            <label><span>Sudut Datang ($i$):</span> <strong id="valSim0">45°</strong></label>
+                            <input type="range" id="sliderSim0" min="10" max="80" value="45" oninput="updateSim0()">
+                        </div>
+                    </div>
+
+                    <div class="sim-info-box" id="infoSim0">
+                        <strong>Keterangan:</strong> Sudut datang sebesar 45° menghasilkan sudut pantul sebesar 45°. Sesuai hukum pemantulan, sudut datang selalu sama dengan sudut pantul terhadap garis normal.
+                    </div>
+
+                    <div class="sim-questions">
+                        <h5><i class="fa-solid fa-clipboard-question"></i> Pertanyaan Interaktif:</h5>
+                        <p><strong>Sebelum/Sesudah:</strong> Apa yang terjadi pada sudut pantul jika sudut datang diperbesar menjadi 60°?</p>
+                        <textarea placeholder="Tuliskan prediksi atau hasil analisis singkat Anda di sini..."></textarea>
+                    </div>
+
+                    <div class="sim-action-buttons">
+                        <button class="btn-secondary" onclick="switchSim(5)"><i class="fa-solid fa-arrow-left"></i> Simulasi Sebelumnya</button>
+                        <button class="btn-primary" onclick="switchSim(1)">Simulasi Berikutnya <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- SIMULASI 2: PEMBIASAN -->
+                <div id="sim-1" class="sim-box">
+                    <h3 style="color: var(--primary); margin-bottom: 0.5rem;"><i class="fa-solid fa-water"></i> Simulasi 2: Pembiasan Gelombang</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem;">Atur kecepatan rambat gelombang pada medium 1 dan medium 2.</p>
+                    
+                    <div class="canvas-container">
+                        <canvas id="canvasSim1" width="700" height="350"></canvas>
+                    </div>
+
+                    <div class="sim-controls">
+                        <div class="control-group">
+                            <label><span>Kecepatan Medium 1 ($v_1$):</span> <strong id="valSim1_v1">3.0 m/s</strong></label>
+                            <input type="range" id="sliderSim1_v1" min="1" max="5" step="0.5" value="3.0" oninput="updateSim1()">
+                        </div>
+                        <div class="control-group">
+                            <label><span>Kecepatan Medium 2 ($v_2$):</span> <strong id="valSim1_v2">1.5 m/s</strong></label>
+                            <input type="range" id="sliderSim1_v2" min="1" max="5" step="0.5" value="1.5" oninput="updateSim1()">
+                        </div>
+                    </div>
+
+                    <div class="sim-info-box" id="infoSim1">
+                        <strong>Keterangan:</strong> Saat gelombang merambat dari medium lebih cepat ke medium lebih lambat ($v_1 > v_2$), gelombang membelok mendekati garis normal dan panjang gelombang menyusut.
+                    </div>
+
+                    <div class="sim-questions">
+                        <h5><i class="fa-solid fa-clipboard-question"></i> Pertanyaan Interaktif:</h5>
+                        <p>Bagaimana perubahan panjang gelombang ($\lambda$) ketika gelombang memasuki medium dengan kecepatan yang lebih rendah?</p>
+                        <textarea placeholder="Tuliskan analisis Anda..."></textarea>
+                    </div>
+
+                    <div class="sim-action-buttons">
+                        <button class="btn-secondary" onclick="switchSim(0)"><i class="fa-solid fa-arrow-left"></i> Simulasi Sebelumnya</button>
+                        <button class="btn-primary" onclick="switchSim(2)">Simulasi Berikutnya <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- SIMULASI 3: DIFRAKSI -->
+                <div id="sim-2" class="sim-box">
+                    <h3 style="color: var(--primary); margin-bottom: 0.5rem;"><i class="fa-solid fa-bars-staggered"></i> Simulasi 3: Difraksi Gelombang</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem;">Atur lebar celah penghalang dan amati penyebaran muka gelombang.</p>
+                    
+                    <div class="canvas-container">
+                        <canvas id="canvasSim2" width="700" height="350"></canvas>
+                    </div>
+
+                    <div class="sim-controls">
+                        <div class="control-group">
+                            <label><span>Lebar Celah ($d$):</span> <strong id="valSim2_celah">Sedang</strong></label>
+                            <input type="range" id="sliderSim2_celah" min="1" max="3" step="1" value="2" oninput="updateSim2()">
+                        </div>
+                    </div>
+
+                    <div class="sim-info-box" id="infoSim2">
+                        <strong>Keterangan:</strong> Celah sempit membuat gelombang melentur (difraksi) membentuk pola melingkar yang sangat jelas di balik penghalang.
+                    </div>
+
+                    <div class="sim-questions">
+                        <h5><i class="fa-solid fa-clipboard-question"></i> Pertanyaan Interaktif:</h5>
+                        <p>Kapan peristiwa difraksi atau pelenturan gelombang dapat terlihat paling optimal?</p>
+                        <textarea placeholder="Tuliskan analisis Anda..."></textarea>
+                    </div>
+
+                    <div class="sim-action-buttons">
+                        <button class="btn-secondary" onclick="switchSim(1)"><i class="fa-solid fa-arrow-left"></i> Simulasi Sebelumnya</button>
+                        <button class="btn-primary" onclick="switchSim(3)">Simulasi Berikutnya <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- SIMULASI 4: INTERFERENSI -->
+                <div id="sim-3" class="sim-box">
+                    <h3 style="color: var(--primary); margin-bottom: 0.5rem;"><i class="fa-solid fa-circle-nodes"></i> Simulasi 4: Interferensi Gelombang</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem;">Amati perpaduan muka gelombang dari dua sumber titik (konstruktif & destruktif).</p>
+                    
+                    <div class="canvas-container">
+                        <canvas id="canvasSim3" width="700" height="350"></canvas>
+                    </div>
+
+                    <div class="sim-controls">
+                        <div class="control-group">
+                            <label><span>Frekuensi Getar ($f$):</span> <strong id="valSim3_freq">2 Hz</strong></label>
+                            <input type="range" id="sliderSim3_freq" min="1" max="4" value="2" oninput="updateSim3()">
+                        </div>
+                    </div>
+
+                    <div class="sim-info-box" id="infoSim3">
+                        <strong>Keterangan:</strong> Garis terang menunjukkan puncak bertemu puncak (interferensi konstruktif/menguatkan), sedangkan titik gelap menunjukkan puncak bertemu lembah (interferensi destruktif/meniadakan).
+                    </div>
+
+                    <div class="sim-questions">
+                        <h5><i class="fa-solid fa-clipboard-question"></i> Pertanyaan Interaktif:</h5>
+                        <p>Apa syarat utama agar dua gelombang yang berpadu menghasilkan interferensi yang stabil (koheren)?</p>
+                        <textarea placeholder="Tuliskan analisis Anda..."></textarea>
+                    </div>
+
+                    <div class="sim-action-buttons">
+                        <button class="btn-secondary" onclick="switchSim(2)"><i class="fa-solid fa-arrow-left"></i> Simulasi Sebelumnya</button>
+                        <button class="btn-primary" onclick="switchSim(4)">Simulasi Berikutnya <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- SIMULASI 5: POLARISASI -->
+                <div id="sim-4" class="sim-box">
+                    <h3 style="color: var(--primary); margin-bottom: 0.5rem;"><i class="fa-solid fa-filter"></i> Simulasi 5: Polarisasi Gelombang</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem;">Putar sudut filter polarisasi dan amati perubahan intensitas gelombang transversal.</p>
+                    
+                    <div class="canvas-container">
+                        <canvas id="canvasSim4" width="700" height="350"></canvas>
+                    </div>
+
+                    <div class="sim-controls">
+                        <div class="control-group">
+                            <label><span>Sudut Filter ($\theta$):</span> <strong id="valSim4_theta">0°</strong></label>
+                            <input type="range" id="sliderSim4_theta" min="0" max="90" step="5" value="0" oninput="updateSim4()">
+                        </div>
+                    </div>
+
+                    <div class="sim-info-box" id="infoSim4">
+                        <strong>Keterangan:</strong> Menggunakan Hukum Malus ($I = I_0 \cos^2\theta$). Saat sudut filter 0°, intensitas maksimum. Saat sudut 90°, gelombang terhalang sepenuhnya (intensitas nol).
+                    </div>
+
+                    <div class="sim-questions">
+                        <h5><i class="fa-solid fa-clipboard-question"></i> Pertanyaan Interaktif:</h5>
+                        <p>Mengapa gelombang longitudinal seperti gelombang bunyi di udara tidak dapat mengalami polarisasi?</p>
+                        <textarea placeholder="Tuliskan analisis Anda..."></textarea>
+                    </div>
+
+                    <div class="sim-action-buttons">
+                        <button class="btn-secondary" onclick="switchSim(3)"><i class="fa-solid fa-arrow-left"></i> Simulasi Sebelumnya</button>
+                        <button class="btn-primary" onclick="switchSim(5)">Simulasi Berikutnya <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- SIMULASI 6: DISPERSI -->
+                <div id="sim-5" class="sim-box">
+                    <h3 style="color: var(--primary); margin-bottom: 0.5rem;"><i class="fa-solid fa-rainbow"></i> Simulasi 6: Dispersi Cahaya</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem;">Berkas cahaya putih melewati prisma kaca dan terurai menjadi spektrum warna.</p>
+                    
+                    <div class="canvas-container">
+                        <canvas id="canvasSim5" width="700" height="350"></canvas>
+                    </div>
+
+                    <div class="sim-controls">
+                        <div class="control-group">
+                            <label><span>Sudut Datang Prisma:</span> <strong id="valSim5_sudut">30°</strong></label>
+                            <input type="range" id="sliderSim5_sudut" min="15" max="45" value="30" oninput="updateSim5()">
+                        </div>
+                    </div>
+
+                    <div class="sim-info-box" id="infoSim5">
+                        <strong>Keterangan:</strong> Cahaya ungu memiliki indeks bias lebih besar dibanding cahaya merah, sehingga cahaya ungu dibelokkan lebih tajam oleh prisma.
+                    </div>
+
+                    <div class="sim-questions">
+                        <h5><i class="fa-solid fa-clipboard-question"></i> Pertanyaan Interaktif:</h5>
+                        <p>Warna cahaya apa yang mengalami pembiasan paling kuat saat melewati prisma kaca? Jelaskan mengapa!</p>
+                        <textarea placeholder="Tuliskan analisis Anda..."></textarea>
+                    </div>
+
+                    <div class="sim-action-buttons">
+                        <button class="btn-secondary" onclick="switchSim(4)"><i class="fa-solid fa-arrow-left"></i> Simulasi Sebelumnya</button>
+                        <button class="btn-primary" onclick="switchPage('kuis')">Lanjut ke Kuis Interaktif <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. HALAMAN KUIS INTERAKTIF -->
+        <section id="page-kuis" class="page-section">
+            <h2 class="section-title">Kuis Evaluasi Pemahaman</h2>
+            <p class="section-desc">Uji pemahaman Anda melalui 15 soal pilihan ganda komprehensif.</p>
+
+            <div class="quiz-wrapper" id="quizContainer">
+                <!-- Dirender secara dinamis via JavaScript -->
+            </div>
+        </section>
+
+        <!-- 6. HALAMAN REFLEKSI AKHIR -->
+        <section id="page-refleksi" class="page-section">
+            <h2 class="section-title">Refleksi Akhir Pembelajaran</h2>
+            <p class="section-desc">Seberapa jauh saya memahami materi gelombang? Mari lakukan refleksi diri.</p>
+
+            <div class="refleksi-wrapper">
+                <div class="refleksi-form-group">
+                    <label>1. Sifat gelombang apa yang paling mudah saya pahami? Mengapa?</label>
+                    <textarea id="ref1" placeholder="Tuliskan jawaban Anda di sini..."></textarea>
+                </div>
+
+                <div class="refleksi-form-group">
+                    <label>2. Sifat gelombang apa yang masih membingungkan atau ingin dipelajari lebih lanjut?</label>
+                    <textarea id="ref2" placeholder="Tuliskan jawaban Anda di sini..."></textarea>
+                </div>
+
+                <div class="refleksi-form-group">
+                    <label>3. Apa hal baru yang saya pelajari dari simulasi interaktif?</label>
+                    <textarea id="ref3" placeholder="Tuliskan jawaban Anda di sini..."></textarea>
+                </div>
+
+                <div class="refleksi-form-group">
+                    <label>4. Fenomena sifat gelombang apa yang pernah saya temui dalam kehidupan sehari-hari?</label>
+                    <textarea id="ref4" placeholder="Tuliskan jawaban Anda di sini..."></textarea>
+                </div>
+
+                <div class="refleksi-form-group">
+                    <label>5. Apa langkah nyata yang akan saya lakukan untuk menguasai materi yang belum dipahami?</label>
+                    <textarea id="ref5" placeholder="Tuliskan jawaban Anda di sini..."></textarea>
+                </div>
+
+                <div class="refleksi-form-group">
+                    <label>Penilaian Diri (Pilih kondisi Anda saat ini):</label>
+                    <div class="emoji-selector">
+                        <label class="emoji-option" onclick="selectEmoji(this)">
+                            <input type="radio" name="emoji" value="paham"> 😊 Saya sudah memahami materi
+                        </label>
+                        <label class="emoji-option" onclick="selectEmoji(this)">
+                            <input type="radio" name="emoji" value="cukup"> 😐 Cukup paham, perlu latihan
+                        </label>
+                        <label class="emoji-option" onclick="selectEmoji(this)">
+                            <input type="radio" name="emoji" value="butuh_bantuan"> 😟 Masih butuh bantuan guru
+                        </label>
+                    </div>
+                </div>
+
+                <div class="range-slider-group">
+                    <label>Skala Pemahaman Keseluruhan (1 s.d. 5): <strong id="valSkala">4</strong></label>
+                    <input type="range" id="rangeSkala" min="1" max="5" value="4" oninput="document.getElementById('valSkala').innerText = this.value">
+                    <div class="range-scale">
+                        <span>1 (Kurang)</span>
+                        <span>3 (Cukup)</span>
+                        <span>5 (Sangat Baik)</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem;">
+                    <button class="btn-primary" onclick="simpanRefleksi()"><i class="fa-solid fa-floppy-disk"></i> Simpan Refleksi</button>
+                    <button class="btn-secondary" onclick="unduhRefleksi()"><i class="fa-solid fa-download"></i> Unduh Berkas Refleksi (.txt)</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Notifikasi Toast -->
+    <div class="alert-toast" id="alertToast">
+        <i class="fa-solid fa-circle-check"></i> <span id="toastMsg">Berhasil!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Media Pembelajaran Digital Fisika SMA Kelas XI | Topik: <span>Sifat-Sifat Gelombang</span></p>
+    </footer>
+
+    <!-- SKrip JavaScript Lengkap -->
+    <script>
+        /* --- NAVIGASI ANTAR HALAMAN & PROGRESS --- */
+        const pages = ['home', 'tujuan', 'materi', 'simulasi', 'kuis', 'refleksi'];
+        
+        function switchPage(pageId) {
+            pages.forEach((p, index) => {
+                const el = document.getElementById('page-' + p);
+                const btn = document.querySelectorAll('.nav-btn')[index];
+                if (p === pageId) {
+                    el.classList.add('active');
+                    if(btn) btn.classList.add('active');
+                } else {
+                    el.classList.remove('active');
+                    if(btn) btn.classList.remove('active');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateGlobalProgress(pageId);
+        }
+
+        function updateGlobalProgress(currentPage) {
+            const idx = pages.indexOf(currentPage);
+            const progress = ((idx + 1) / pages.length) * 100;
+            document.getElementById('globalProgressBar').style.width = progress + '%';
+        }
+
+        function goToSimulation(simIndex) {
+            switchPage('simulasi');
+            switchSim(simIndex);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('alertToast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        /* --- KANVAS & SIMULASI INTERAKTIF (1 s.d. 6) --- */
+        function switchSim(simIndex) {
+            for(let i=0; i<6; i++) {
+                const box = document.getElementById('sim-' + i);
+                const tab = document.querySelectorAll('.sim-tab-btn')[i];
+                if(i === simIndex) {
+                    box.classList.add('active');
+                    tab.classList.add('active');
+                } else {
+                    box.classList.remove('active');
+                    tab.classList.remove('active');
+                }
+            }
+            // Jalankan render awal saat tab dibuka
+            setTimeout(renderActiveSim, 50);
+        }
+
+        function renderActiveSim() {
+            for(let i=0; i<6; i++) {
+                if(document.getElementById('sim-' + i).classList.contains('active')) {
+                    if(i === 0) updateSim0();
+                    if(i === 1) updateSim1();
+                    if(i === 2) updateSim2();
+                    if(i === 3) updateSim3();
+                    if(i === 4) updateSim4();
+                    if(i === 5) updateSim5();
+                }
+            }
+        }
+
+        // Simulasi 1: Pemantulan
+        function updateSim0() {
+            const sudut = parseInt(document.getElementById('sliderSim0').value);
+            document.getElementById('valSim0').innerText = sudut + '°';
+            document.getElementById('infoSim0').innerHTML = `<strong>Keterangan:</strong> Sudut datang sebesar ${sudut}° menghasilkan sudut pantul ${sudut}°. Sesuai hukum pemantulan, besar sudut datang sama dengan sudut pantul terhadap garis normal.`;
+
+            const canvas = document.getElementById('canvasSim0');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Background & Bidang Pantul
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.strokeStyle = '#3b82f6';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(100, 280);
+            ctx.lineTo(600, 280);
+            ctx.stroke();
+
+            // Garis Normal (Putus-putus)
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(350, 280);
+            ctx.lineTo(350, 80);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Sinar Datang & Pantul
+            const rad = sudut * Math.PI / 180;
+            const len = 180;
+            const startX = 350 - len * Math.sin(rad);
+            const startY = 280 - len * Math.cos(rad);
+            const endX = 350 + len * Math.sin(rad);
+            const endY = 280 - len * Math.cos(rad);
+
+            // Sinar Datang
+            ctx.strokeStyle = '#f97316';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(350, 280);
+            ctx.stroke();
+
+            // Sinar Pantul
+            ctx.beginPath();
+            ctx.moveTo(350, 280);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+
+            // Label Teks
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '14px Plus Jakarta Sans';
+            ctx.fillText(`i = ${sudut}°`, 300, 160);
+            ctx.fillText(`r = ${sudut}°`, 380, 160);
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('Garis Normal', 355, 95);
+            ctx.fillText('Bidang Pantul', 310, 305);
+        }
+
+        // Simulasi 2: Pembiasan
+        function updateSim1() {
+            const v1 = parseFloat(document.getElementById('sliderSim1_v1').value);
+            const v2 = parseFloat(document.getElementById('sliderSim1_v2').value);
+            document.getElementById('valSim1_v1').innerText = v1.toFixed(1) + ' m/s';
+            document.getElementById('valSim1_v2').innerText = v2.toFixed(1) + ' m/s';
+
+            let ket = "";
+            if(v1 > v2) {
+                ket = `Medium 1 lebih cepat daripada Medium 2 ($v_1 > v_2$). Gelombang membias **mendekati garis normal** dan panjang gelombang memendek.`;
+            } else if(v1 < v2) {
+                ket = `Medium 1 lebih lambat daripada Medium 2 ($v_1 < v_2$). Gelombang membias **menjauhi garis normal** dan panjang gelombang merenggang.`;
+            } else {
+                ket = `Kedua medium memiliki kecepatan sama, tidak terjadi pembiasan (arah lurus).`;
+            }
+            document.getElementById('infoSim1').innerHTML = `<strong>Keterangan:</strong> ${ket}`;
+
+            const canvas = document.getElementById('canvasSim1');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Area Medium 1 & 2
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(0, 0, 350, 350);
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(350, 0, 350, 350);
+
+            // Garis Batas Medium
+            ctx.strokeStyle = '#3b82f6';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(350, 0);
+            ctx.lineTo(350, 350);
+            ctx.stroke();
+
+            // Ilustrasi Gelombang Muka
+            ctx.strokeStyle = '#f97316';
+            ctx.lineWidth = 2;
+            let spacing1 = v1 * 15;
+            for(let x = 100; x < 350; x += spacing1) {
+                ctx.beginPath();
+                ctx.arc(x, 175, 50, -Math.PI/2, Math.PI/2);
+                ctx.stroke();
+            }
+
+            let spacing2 = v2 * 15;
+            let bendOffset = (v1 - v2) * 15;
+            for(let x = 380; x < 650; x += spacing2) {
+                ctx.beginPath();
+                ctx.arc(x - bendOffset, 175, 50, -Math.PI/2, Math.PI/2);
+                ctx.stroke();
+            }
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '13px Plus Jakarta Sans';
+            ctx.fillText('Medium 1 (v1)', 50, 30);
+            ctx.fillText('Medium 2 (v2)', 400, 30);
+        }
+
+        // Simulasi 3: Difraksi
+        function updateSim2() {
+            const celahVal = parseInt(document.getElementById('sliderSim2_celah').value);
+            let labelCelah = "Sempit";
+            let radiusSpread = 80;
+            if(celahVal === 1) { labelCelah = "Sangat Sempit"; radiusSpread = 120; }
+            if(celahVal === 2) { labelCelah = "Sedang"; radiusSpread = 70; }
+            if(celahVal === 3) { labelCelah = "Lebar"; radiusSpread = 30; }
+
+            document.getElementById('valSim2_celah').innerText = labelCelah;
+            document.getElementById('infoSim2').innerHTML = `<strong>Keterangan:</strong> Ukuran celah ${labelCelah}. ${celahVal === 1 ? 'Difraksi sangat jelas terlihat karena muka gelombang menyebar luas menyerupai sumber titik baru.' : 'Penyebaran gelombang di balik celah lebih terbatas.'}`;
+
+            const canvas = document.getElementById('canvasSim2');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Penghalang dengan Celah di Tengah (y=175)
+            ctx.fillStyle = '#64748b';
+            let halfGap = radiusSpread;
+            ctx.fillRect(300, 0, 20, 175 - halfGap);
+            ctx.fillRect(300, 175 + halfGap, 20, 175 - halfGap);
+
+            // Gelombang Datang dari Kiri
+            ctx.strokeStyle = '#3b82f6';
+            ctx.lineWidth = 2;
+            for(let x = 80; x < 300; x += 30) {
+                ctx.beginPath();
+                ctx.moveTo(x, 50);
+                ctx.lineTo(x, 300);
+                ctx.stroke();
+            }
+
+            // Gelombang Menyebar di Kanan Celah (Difraksi)
+            ctx.strokeStyle = '#f97316';
+            for(let r = 20; r < 250; r += 25) {
+                ctx.beginPath();
+                ctx.arc(310, 175, r, -Math.PI/3, Math.PI/3);
+                ctx.stroke();
+            }
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '13px Plus Jakarta Sans';
+            ctx.fillText('Gelombang Datang', 100, 30);
+            ctx.fillText('Pola Difraksi', 450, 30);
+        }
+
+        // Simulasi 4: Interferensi
+        function updateSim3() {
+            const freq = parseInt(document.getElementById('sliderSim3_freq').value);
+            document.getElementById('valSim3_freq').innerText = freq + ' Hz';
+            document.getElementById('infoSim3').innerHTML = `<strong>Keterangan:</strong> Frekuensi getar ${freq} Hz. Pola interferensi menunjukkan daerah garis konstruktif (saling menguatkan) dan destruktif (saling meniadakan).`;
+
+            const canvas = document.getElementById('canvasSim3');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Sumber Gelombang 1 & 2
+            let s1x = 250, s1y = 175;
+            let s2x = 450, s2y = 175;
+
+            // Lingkaran Gelombang Interaktif
+            let time = Date.now() * 0.003 * freq;
+            ctx.lineWidth = 1.5;
+
+            for(let r = 10; r < 200; r += 20) {
+                let currentR = (r + (time * 15) % 20);
+                ctx.strokeStyle = 'rgba(59, 130, 246, 0.6)';
+                ctx.beginPath();
+                ctx.arc(s1x, s1y, currentR, 0, Math.PI * 2);
+                ctx.stroke();
+
+                ctx.strokeStyle = 'rgba(249, 115, 22, 0.6)';
+                ctx.beginPath();
+                ctx.arc(s2x, s2y, currentR, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+
+            // Titik Sumber
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(s1x, s1y, 6, 0, Math.PI*2);
+            ctx.arc(s2x, s2y, 6, 0, Math.PI*2);
+            ctx.fill();
+
+            ctx.fillText('Sumber 1', s1x - 25, s1y - 15);
+            ctx.fillText('Sumber 2', s2x - 25, s2y - 15);
+        }
+
+        // Simulasi 5: Polarisasi
+        function updateSim4() {
+            const theta = parseInt(document.getElementById('sliderSim4_theta').value);
+            document.getElementById('valSim4_theta').innerText = theta + '°';
+            let intensity = Math.cos(theta * Math.PI / 180) ** 2;
+            document.getElementById('infoSim4').innerHTML = `<strong>Keterangan:</strong> Sudut filter ${theta}°. Berdasarkan hukum Malus ($I = I_0 \\cos^2\\theta$), intensitas cahaya yang diteruskan adalah ${(intensity * 100).toFixed(1)}% dari intensitas awal.`;
+
+            const canvas = document.getElementById('canvasSim4');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Gelombang Transversal Sebelum Filter
+            ctx.strokeStyle = '#3b82f6';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            for(let x = 50; x < 300; x++) {
+                let y = 175 + 40 * Math.sin(x * 0.05);
+                if(x === 50) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Filter Polarisasi (Garis vertikal yang miring sesuai theta)
+            ctx.strokeStyle = '#f97316';
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            let filterX = 350;
+            let angleRad = theta * Math.PI / 180;
+            let dx = 40 * Math.sin(angleRad);
+            let dy = 40 * Math.cos(angleRad);
+            ctx.moveTo(filterX - dx, 175 - dy);
+            ctx.lineTo(filterX + dx, 175 + dy);
+            ctx.stroke();
+
+            // Gelombang Setelah Filter (Amplitudo teredam)
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 3;
+            let transmittedAmp = 40 * Math.cos(angleRad);
+            ctx.beginPath();
+            for(let x = 400; x < 650; x++) {
+                let y = 175 + transmittedAmp * Math.sin(x * 0.05);
+                if(x === 400) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '12px Plus Jakarta Sans';
+            ctx.fillText('Gelombang Asal', 120, 80);
+            ctx.fillText('Filter (θ)', 330, 80);
+            ctx.fillText('Teredam', 500, 80);
+        }
+
+        // Simulasi 6: Dispersi
+        function updateSim5() {
+            const sudutPrisma = parseInt(document.getElementById('sliderSim5_sudut').value);
+            document.getElementById('valSim5_sudut').innerText = sudutPrisma + '°';
+            document.getElementById('infoSim5').innerHTML = `<strong>Keterangan:</strong> Berkas cahaya putih polikromatik masuk ke prisma dan terurai (dispersi) menjadi spektrum warna berurutan dari Merah hingga Ungu akibat perbedaan indeks bias.`;
+
+            const canvas = document.getElementById('canvasSim5');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Gambar Prisma Segitiga
+            ctx.fillStyle = 'rgba(59, 130, 246, 0.2)';
+            ctx.strokeStyle = '#3b82f6';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(350, 100);
+            ctx.lineTo(250, 280);
+            ctx.lineTo(450, 280);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Berkas Cahaya Putih Masuk
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(150, 210);
+            ctx.lineTo(300, 210);
+            ctx.stroke();
+
+            // Spektrum Warna Keluar Prisma (Merah, Jingga, Kuning, Hijau, Biru, Ungu)
+            const colors = ['#ef4444', '#f97316', '#eab308', '#10b981', '#3b82f6', '#8b5cf6'];
+            colors.forEach((col, idx) => {
+                ctx.strokeStyle = col;
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.moveTo(330, 210);
+                let endY = 120 + idx * 25;
+                ctx.lineTo(600, endY);
+                ctx.stroke();
+            });
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '12px Plus Jakarta Sans';
+            ctx.fillText('Cahaya Putih', 160, 195);
+            ctx.fillText('Spektrum Warna (Dispersi)', 460, 110);
+        }
+
+        // Auto animasikan simulasi interferensi
+        setInterval(() => {
+            if(document.getElementById('sim-3').classList.contains('active')) {
+                updateSim3();
+            }
+        }, 50);
+
+
+        /* --- 15 SOAL KUIS INTERAKTIF --- */
+        const quizData = [
+            // Pemahaman Konsep (1-5)
+            {
+                q: "1. Peristiwa ketika gelombang mengenai batas suatu medium lalu dipantulkan kembali ke medium asalnya disebut...",
+                options: ["A. Pembiasan", "B. Pemantulan", "C. Difraksi", "D. Polarisasi"],
+                answer: 1,
+                explanation: "Benar! Pemantulan (refleksi) adalah peristiwa kembalinya gelombang ke medium asal setelah membentur batas medium."
+            },
+            {
+                q: "2. Hukum pemantulan gelombang menyatakan bahwa sudut datang (i) selalu...",
+                options: ["A. Lebih kecil dari sudut pantul", "B. Lebih besar dari sudut pantul", "C. Sama besar dengan sudut pantul", "D. Berbanding terbalik dengan panjang gelombang"],
+                answer: 2,
+                explanation: "Benar! Berdasarkan hukum pemantulan, sudut datang besarnya selalu sama dengan sudut pantul terhadap garis normal."
+            },
+            {
+                q: "3. Besaran berikut yang nilainya SELALU TETAP ketika gelombang melewati batas dua medium berbeda adalah...",
+                options: ["A. Kecepatan gelombang", "B. Panjang gelombang", "C. Frekuensi gelombang", "D. Amplitudo gelombang"],
+                answer: 2,
+                explanation: "Benar! Frekuensi gelombang ditentukan oleh sumber getar, sehingga nilainya tetap konstan meskipun merambat ke medium berbeda."
+            },
+            {
+                q: "4. Peristiwa pelenturan atau penyebaran gelombang saat melewati celah sempit dikenal sebagai...",
+                options: ["A. Difraksi", "B. Dispersi", "C. Interferensi", "D. Refraksi"],
+                answer: 0,
+                explanation: "Benar! Difraksi adalah pembelokan atau penyebaran muka gelombang saat melewati celah yang sebanding dengan panjang gelombangnya."
+            },
+            {
+                q: "5. Sifat gelombang yang HANYA dapat dialami oleh gelombang transversal dan tidak dapat terjadi pada gelombang longitudinal adalah...",
+                options: ["A. Pemantulan", "B. Pembiasan", "C. Polarisasi", "D. Interferensi"],
+                answer: 2,
+                explanation: "Benar! Polarisasi adalah pembatasan arah getar yang hanya terjadi pada gelombang transversal."
+            },
+            // Penerapan Kehidupan Sehari-hari (6-10)
+            {
+                q: "6. Gema suara yang terdengar kembali beberapa saat setelah kita berteriak di depan tebing tinggi merupakan penerapan sifat...",
+                options: ["A. Pemantulan gelombang", "B. Difraksi gelombang", "C. Dispersi cahaya", "D. Polarisasi gelombang"],
+                answer: 0,
+                explanation: "Benar! Gema terjadi akibat pemantulan gelombang bunyi oleh dinding tebing penghalang."
+            },
+            {
+                q: "7. Suara percakapan seseorang di ruang sebelah tetap dapat terdengar meskipun kita berada di balik pintu yang terbuka sedikit. Hal ini membuktikan sifat...",
+                options: ["A. Pemantulan", "B. Difraksi", "C. Pembiasan", "D. Dispersi"],
+                answer: 1,
+                explanation: "Benar! Suara dapat melentur melewati celah sempit pintu berkat adanya difraksi gelombang bunyi."
+            },
+            {
+                q: "8. Penggunaan kacamata hitam polarisasi sangat efektif untuk mengurangi silau akibat panturan cahaya matahari pada permukaan air karena menyaring...",
+                options: ["A. Frekuensi tinggi", "B. Arah getar medan listrik tertentu", "C. Amplitudo gelombang bunyi", "D. Cepat rambat gelombang"],
+                answer: 1,
+                explanation: "Benar! Kacamata polarisasi berfungsi menyaring komponen arah getar transversal cahaya yang menyilaukan."
+            },
+            {
+                q: "9. Terbentuknya pelangi di langit setelah hujan melibatkan proses penguraian cahaya matahari oleh tetesan air hujan yang bertindak sebagai...",
+                options: ["A. Cermin datar", "B. Prisma alami", "C. Celah difraksi", "D. Filter polarisasi"],
+                answer: 1,
+                explanation: "Benar! Tetesan air hujan bertindak seperti prisma kaca kecil yang menguraikan cahaya putih (dispersi)."
+            },
+            {
+                q: "10. Batang pensil yang dicelupkan ke dalam gelas berisi air terlihat tampak patah atau bengkok. Fenomena ini disebabkan oleh...",
+                options: ["A. Pemantulan", "B. Pembiasan", "C. Interferensi", "D. Polarisasi"],
+                answer: 1,
+                explanation: "Benar! Pembiasan cahaya terjadi karena perbedaan kecepatan cahaya saat merambat dari air ke udara."
+            },
+            // Analisis & Penalaran (11-15)
+            {
+                q: "11. Ketika dua gelombang koheren dengan fase yang sama bertemu di suatu titik, terjadi interferensi konstruktif yang mengakibatkan...",
+                options: ["A. Amplitudo resultan saling meniadakan", "B. Amplitudo resultan saling memperkuat (membesar)", "C. Frekuensi gelombang menjadi nol", "D. Kecepatan gelombang melipatgandakan diri"],
+                answer: 1,
+                explanation: "Benar! Interferensi konstruktif terjadi saat puncak bertemu puncak sehingga amplitudo saling memperkuat."
+            },
+            {
+                q: "12. Gelombang air merambat dari daerah dalam ke daerah dangkal. Jika laju gelombang di air dalam adalah 4 m/s dan di air dangkal 2 m/s, maka saat memasuki daerah dangkal...",
+                options: ["A. Panjang gelombang bertambah besar", "B. Panjang gelombang berkurang (menyusut)", "C. Frekuensi gelombang ikut berkurang", "D. Arah rambat menjauhi garis normal"],
+                answer: 1,
+                explanation: "Benar! Karena $v = \lambda \times f$ dan frekuensi tetap, penurunan kecepatan $v$ berbanding lurus dengan penurunan panjang gelombang $\lambda$."
+            },
+            {
+                q: "13. Mengapa gelombang radio FM lebih mudah mengalami difraksi di sekitar gedung-gedung tinggi dibandingkan gelombang TV UHF?",
+                options: ["A. Frekuensi radio FM jauh lebih tinggi", "B. Panjang gelombang radio FM lebih besar sehingga sebanding dengan ukuran gedung", "C. Gelombang FM tidak dapat dipantulkan", "D. Gelombang FM adalah gelombang longitudinal"],
+                answer: 1,
+                explanation: "Benar! Difraksi optimal terjadi jika panjang gelombang sebanding atau lebih besar dari ukuran penghalang (gedung)."
+            },
+            {
+                q: "14. Seberkas cahaya putih melewati prisma kaca. Urutan warna cahaya yang mengalami pembelokan (penyimpangan) paling kecil hingga paling besar adalah...",
+                options: ["A. Ungu hingga Merah", "B. Merah hingga Ungu", "C. Hijau hingga Kuning", "D. Biru hingga Jingga"],
+                answer: 1,
+                explanation: "Benar! Cahaya merah memiliki panjang gelombang terbesar dan indeks bias terkecil (pembelokan terkecil), sedangkan ungu sebaliknya."
+            },
+            {
+                q: "15. Jika sudut antara sumbu transmisi polarisator dan analisator adalah 60°, berapakah fraksi intensitas cahaya yang diteruskan ($I/I_0$)?",
+                options: ["A. 0,25 (25%)", "B. 0,50 (50%)", "C. 0,75 (75%)", "D. 1,00 (100%)"],
+                answer: 0,
+                explanation: "Benar! Menggunakan hukum Malus: $I = I_0 \cos^2(60^\circ) = I_0 (0,5)^2 = 0,25 I_0$ (25%)."
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        let userAnswers = {};
+        let quizSubmitted = false;
+
+        function renderQuiz() {
+            const container = document.getElementById('quizContainer');
+            if (quizSubmitted) {
+                let correctCount = 0;
+                quizData.forEach((item, idx) => {
+                    if (userAnswers[idx] === item.answer) correctCount++;
+                });
+                let score = (correctCount / quizData.length) * 100;
+
+                container.innerHTML = `
+                    <div class="quiz-score-card">
+                        <h3>Kuis Selesai!</h3>
+                        <div class="score-circle">${score.toFixed(0)}</div>
+                        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">Jawaban Benar: <strong>${correctCount}</strong> dari ${quizData.length}</p>
+                        <p style="color: var(--text-light); margin-bottom: 1.5rem;">${score >= 75 ? 'Hebat! Anda sudah menguasai materi sifat-sifat gelombang dengan sangat baik.' : 'Bagus! Tingkatkan kembali pemahaman dengan mempelajari materi dan simulasi.'}</p>
+                        <button class="btn-primary" onclick="resetQuiz()"><i class="fa-solid fa-rotate-right"></i> Ulangi Kuis</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const item = quizData[currentQuizIndex];
+            let optionsHTML = '';
+            item.options.forEach((opt, optIdx) => {
+                let checked = userAnswers[currentQuizIndex] === optIdx ? 'checked' : '';
+                let disabled = userAnswers[currentQuizIndex] !== undefined ? 'disabled' : '';
+                let extraClass = '';
+                if(userAnswers[currentQuizIndex] !== undefined) {
+                    if(optIdx === item.answer) extraClass = 'correct';
+                    else if(userAnswers[currentQuizIndex] === optIdx) extraClass = 'incorrect';
+                }
+
+                optionsHTML += `
+                    <label class="quiz-option ${extraClass}" onclick="selectQuizOption(${currentQuizIndex}, ${optIdx})">
+                        <input type="radio" name="q${currentQuizIndex}" value="${optIdx}" ${checked} ${disabled}> ${opt}
+                    </label>
+                `;
+            });
+
+            let feedbackHTML = '';
+            if(userAnswers[currentQuizIndex] !== undefined) {
+                let isCorrect = userAnswers[currentQuizIndex] === item.answer;
+                feedbackHTML = `
+                    <div class="quiz-feedback show ${isCorrect ? 'correct-fb' : 'incorrect-fb'}">
+                        <strong>${isCorrect ? 'Benar!' : 'Belum tepat.'}</strong> ${item.explanation}
+                    </div>
+                `;
+            }
+
+            container.innerHTML = `
+                <div class="quiz-header-info">
+                    <span>Soal ${currentQuizIndex + 1} dari ${quizData.length}</span>
+                    <span>Progres: ${Math.round(((currentQuizIndex + 1) / quizData.length) * 100)}%</span>
+                </div>
+                <div class="quiz-question-box">
+                    <h3>${item.q}</h3>
+                    <div class="quiz-options">
+                        ${optionsHTML}
+                    </div>
+                    ${feedbackHTML}
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+                        <button class="btn-secondary" onclick="prevQuiz()" ${currentQuizIndex === 0 ? 'style="opacity:0.5; cursor:not-allowed;"' : ''}><i class="fa-solid fa-arrow-left"></i> Sebelumnya</button>
+                        ${userAnswers[currentQuizIndex] === undefined ? `<button class="btn-primary" onclick="checkQuizAnswer()">Periksa Jawaban</button>` : ''}
+                        <button class="btn-primary" onclick="nextQuiz()">${currentQuizIndex === quizData.length - 1 ? 'Selesai & Lihat Nilai' : 'Soal Berikutnya <i class="fa-solid fa-arrow-right"></i>'}</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectQuizOption(qIdx, optIdx) {
+            if(userAnswers[qIdx] !== undefined) return; // Terkunci jika sudah dijawab
+            userAnswers[qIdx] = optIdx;
+            renderQuiz();
+        }
+
+        function checkQuizAnswer() {
+            if(userAnswers[currentQuizIndex] === undefined) {
+                showToast("Silakan pilih salah satu jawaban terlebih dahulu!");
+                return;
+            }
+            renderQuiz();
+        }
+
+        function nextQuiz() {
+            if(userAnswers[currentQuizIndex] === undefined) {
+                showToast("Pilih jawaban terlebih dahulu sebelum lanjut!");
+                return;
+            }
+            if(currentQuizIndex < quizData.length - 1) {
+                currentQuizIndex++;
+                renderQuiz();
+            } else {
+                quizSubmitted = true;
+                renderQuiz();
+            }
+        }
+
+        function prevQuiz() {
+            if(currentQuizIndex > 0) {
+                currentQuizIndex--;
+                renderQuiz();
+            }
+        }
+
+        function resetQuiz() {
+            currentQuizIndex = 0;
+            userAnswers = {};
+            quizSubmitted = false;
+            renderQuiz();
+        }
+
+
+        /* --- REFLEKSI AKHIR PEMBELAJARAN --- */
+        function selectEmoji(element) {
+            document.querySelectorAll('.emoji-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+        }
+
+        function simpanRefleksi() {
+            const r1 = document.getElementById('ref1').value.trim();
+            const r2 = document.getElementById('ref2').value.trim();
+            const skala = document.getElementById('rangeSkala').value;
+
+            if(!r1 && !r2) {
+                showToast("Mohon isi beberapa pertanyaan refleksi terlebih dahulu!");
+                return;
+            }
+            showToast("Refleksi berhasil disimpan dalam sesi perangkat!");
+        }
+
+        function unduhRefleksi() {
+            const r1 = document.getElementById('ref1').value;
+            const r2 = document.getElementById('ref2').value;
+            const r3 = document.getElementById('ref3').value;
+            const r4 = document.getElementById('ref4').value;
+            const r5 = document.getElementById('ref5').value;
+            const skala = document.getElementById('rangeSkala').value;
+
+            let selectedEmojiVal = "Belum dipilih";
+            document.querySelectorAll('.emoji-option input').forEach(inp => {
+                if(inp.checked) selectedEmojiVal = inp.value;
+            });
+
+            const content = `=== REFLEKSI PEMBELAJARAN FISIKA: SIFAT-SIFAT GELOMBANG ===\n\n` +
+                            `1. Bagian yang paling mudah dipahami:\n${r1 || '-'}\n\n` +
+                            `2. Bagian yang masih membingungkan:\n${r2 || '-'}\n\n` +
+                            `3. Hal baru dari simulasi:\n${r3 || '-'}\n\n` +
+                            `4. Fenomena dalam kehidupan sehari-hari:\n${r4 || '-'}\n\n` +
+                            `5. Langkah penguasaan materi:\n${r5 || '-'}\n\n` +
+                            `Penilaian Diri Kondisi: ${selectedEmojiVal}\n` +
+                            `Skala Pemahaman: ${skala} / 5\n`;
+
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Refleksi_Gelombang_Fisika.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showToast("Berkas refleksi berhasil diunduh!");
+        }
+
+        // Inisialisasi awal saat halaman dimuat
+        window.onload = function() {
+            renderQuiz();
+        };
+    </script>
+</body>
+</html>
